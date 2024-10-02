@@ -1,9 +1,8 @@
-﻿namespace Playmor_Asp.DTOs
+﻿namespace Playmor_Asp.DTOs;
+
+public class UserCredentialsDTO
 {
-    public class UserCredentialsDTO
-    {
-        public string Token { get; set; }
-        public DateTime TokenCreated { get; set; }
-        public DateTime TokenExpires { get; set; }
-    }
+    public string Token { get; set; }
+    public DateTime TokenCreated { get; set; }
+    public DateTime TokenExpires { get; set; }
 }
