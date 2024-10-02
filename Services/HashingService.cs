@@ -1,25 +1,26 @@
-﻿using System.Security.Cryptography;
+﻿using Playmor_Asp.Interfaces;
+using System.Security.Cryptography;
 
-namespace Playmor_Asp.Services
+namespace Playmor_Asp.Services;
+
+public class HashingService : IHashingService
 {
-    public class HashingService
+    public Tuple<byte[], byte[]> CreateHash(string password)
     {
-        public Tuple<byte[], byte[]> CreateHash(string password)
+        using (var hmac = new HMACSHA512())
         {
-            using (var hmac = new HMACSHA512())
-            {
-                var salt = hmac.Key;
-                var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return new Tuple<byte[], byte[]>(hash, salt);
-            }
+            var salt = hmac.Key;
+            var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return new Tuple<byte[], byte[]>(hash, salt);
         }
-        public bool CompareHash(string password, byte[] hash, byte[] salt)
+    }
+
+    public bool CompareHash(string password, byte[] hash, byte[] salt)
+    {
+        using (var hmac = new HMACSHA512(salt))
         {
-            using (var hmac = new HMACSHA512(salt))
-            {
-                var newHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return hash.SequenceEqual(newHash);
-            }
+            var newHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return hash.SequenceEqual(newHash);
         }
     }
 }
