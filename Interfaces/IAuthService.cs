@@ -1,4 +1,6 @@
 ﻿using Playmor_Asp.DTOs;
+using Playmor_Asp.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Playmor_Asp.Interfaces
 {
@@ -7,7 +9,6 @@ namespace Playmor_Asp.Interfaces
         public string Login(UserLoginDTO userLoginDTO);
         public string Register(UserRegisterDTO userRegisterDTO);
         public string RefreshToken();
-        public string CreateToken();
-        
+        public Tuple<string, JwtSecurityToken> CreateToken(User user);
     }
 }
