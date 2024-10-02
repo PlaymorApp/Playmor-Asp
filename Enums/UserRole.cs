@@ -1,8 +1,7 @@
-﻿namespace Playmor_Asp.Enums
+﻿namespace Playmor_Asp.Enums;
+
+public enum UserRole
 {
-    public enum UserRole
-    {
-        User,
-        Admin
-    }
+    User,
+    Admin
 }
