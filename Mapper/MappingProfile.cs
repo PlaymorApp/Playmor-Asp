@@ -12,6 +12,10 @@ namespace Playmor_Asp.Mapper
             CreateMap<UserDTO, User>();
             CreateMap<UserUpdateDTO, User>();
             CreateMap<User, UserUpdateDTO>();
+            CreateMap<UserRegisterDTO, User>();
+            CreateMap<User, UserRegisterDTO>();
+            CreateMap<UserCredentialsDTO, User>();
+            CreateMap<User, UserCredentialsDTO>();
         }
     }
 }
