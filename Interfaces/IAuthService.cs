@@ -7,6 +7,8 @@ namespace Playmor_Asp.Interfaces;
 public interface IAuthService
 {
     public string Login(UserLoginDTO userLoginDTO);
+
     public string Register(UserRegisterDTO userRegisterDTO);
+
     public (string, JwtSecurityToken) CreateToken(User user);
 }
