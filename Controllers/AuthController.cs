@@ -28,7 +28,7 @@ public class AuthController : Controller
             {
                 HttpOnly = true,      // This ensures the cookie is not accessible via JavaScript
                 Secure = true,        // Only send the cookie over HTTPS (set to false if in development with HTTP)
-                SameSite = SameSiteMode.Strict,  // Controls cross-site cookie behavior
+                SameSite = SameSiteMode.None,  // Controls cross-site cookie behavior
                 Expires = DateTime.Now.AddDays(1)
             };
             Response.Cookies.Append("authToken", jwt, cookieOptions);
@@ -55,7 +55,7 @@ public class AuthController : Controller
             {
                 HttpOnly = true,      // This ensures the cookie is not accessible via JavaScript
                 Secure = true,        // Only send the cookie over HTTPS (set to false if in development with HTTP)
-                SameSite = SameSiteMode.Strict,  // Controls cross-site cookie behavior
+                SameSite = SameSiteMode.None,  // Controls cross-site cookie behavior
                 Expires = DateTime.Now.AddDays(1)
             };
             Response.Cookies.Append("authToken", jwt, cookieOptions);
