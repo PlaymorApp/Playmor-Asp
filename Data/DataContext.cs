@@ -13,5 +13,8 @@ public class DataContext : DbContext
     {
         modelBuilder.Entity<Game>()
             .OwnsMany(g => g.ReleaseDates);
+
+        modelBuilder.Entity<Game>()
+            .OwnsMany(g => g.WebsiteLinks);
     }
 }
