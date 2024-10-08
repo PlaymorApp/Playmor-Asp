@@ -25,7 +25,7 @@ public class GameSeed
                 Platforms = ["Windows", "iOS", "Android", "PlayStation 5"],
                 Genres = ["Action role-playing", "hack and slash"],
                 Modes = ["Single-player"],
-                Cover = "https://en.wikipedia.org/wiki/Zenless_Zone_Zero#/media/File:Zenless_Zone_Zero_curved_box_logo.svg",
+                Cover = "https://cdn.mobygames.com/covers/18866458-zenless-zone-zero-windows-front-cover.jpg",
                 Artwork = "https://asset.vg247.com/zenless-zone-zero_obqWbPP.jpg/BROK/thumbnail/1600x900/format/jpg/quality/80/zenless-zone-zero_obqWbPP.jpg",
                 ReleaseDates =
                 [
@@ -69,7 +69,7 @@ public class GameSeed
                 Platforms = ["Windows", "PlayStation 4", "Xbox One", "Xbox Series X/S", "PlayStation 5"],
                 Genres = ["Action role-playing"],
                 Modes = ["Single-player", "Multiplayer"],
-                Cover = "https://en.wikipedia.org/wiki/Elden_Ring#/media/File:Elden_Ring_Box_art.jpg",
+                Cover = "https://preview.redd.it/elden-ring-alternate-steam-grid-cover-original-art-in-v0-ph8z8d2ockv81.png?auto=webp&s=4a9f2259440649fc579dac9d45dca4e172534591",
                 Artwork = "https://cdn.wccftech.com/wp-content/uploads/2021/06/ER_KEY-ART-scaled-e1623411764381-2048x1052.jpg",
                 ReleaseDates =
                 [
@@ -128,7 +128,7 @@ public class GameSeed
                 Platforms = ["Windows", "PlayStation 4", "Xbox One", "Xbox Series X/S", "PlayStation 5", "Nintendo Switch"],
                 Genres = ["Action role-playing"],
                 Modes = ["Single-player"],
-                Cover = "https://en.wikipedia.org/wiki/The_Witcher_3:_Wild_Hunt#/media/File:Witcher_3_cover_art.jpg",
+                Cover = "https://cdn.mobygames.com/covers/1495173-the-witcher-3-wild-hunt-xbox-one-front-cover.png",
                 Artwork = "https://wallpaperaccess.com/full/147237.png",
                 ReleaseDates =
                 [
@@ -197,7 +197,7 @@ public class GameSeed
                 Platforms = ["Windows", "PlayStation 4", "Xbox One", "Xbox Series X/S", "PlayStation 5", "Nintendo Switch"],
                 Genres = ["Action-adventure"],
                 Modes = ["Single-player"],
-                Cover = "https://en.wikipedia.org/wiki/Outer_Wilds#/media/File:Outer_Wilds_Steam_artwork.jpg",
+                Cover = "https://cdn.mobygames.com/covers/9752728-outer-wilds-playstation-4-front-cover.jpg",
                 Artwork = "https://cdn.wccftech.com/wp-content/uploads/2019/06/WCCFouterwilds1.jpg",
                 ReleaseDates =
                 [
@@ -261,7 +261,7 @@ public class GameSeed
                 Platforms = ["Windows", "PlayStation 4", "Xbox One", "Linux", "macOS", "Nintendo Switch"],
                 Genres = ["Metroidvania"],
                 Modes = ["Single-player"],
-                Cover = "https://en.wikipedia.org/wiki/Hollow_Knight#/media/File:Hollow_Knight_first_cover_art.webp",
+                Cover = "https://cdn.mobygames.com/covers/1792719-hollow-knight-limited-edition-linux-front-cover.jpg",
                 Artwork = "https://vignette.wikia.nocookie.net/hollowknight/images/7/79/Promo_04.png/revision/latest/scale-to-width-down/2000?cb=20181111043345",
                 ReleaseDates =
                 [
@@ -320,7 +320,7 @@ public class GameSeed
                 Platforms = ["Windows", "PlayStation 4", "PlayStation 5", "Xbox One", "Xbox Series X/S", "Stadia", "macOS", "Nintendo Switch"],
                 Genres = ["Role-playing"],
                 Modes = ["Single-player"],
-                Cover = "https://en.wikipedia.org/wiki/Disco_Elysium#/media/File:Disco_Elysium_Poster.jpeg",
+                Cover = "https://gamefaqs.gamespot.com/a/box/7/1/8/779718_front.jpg",
                 Artwork = "https://sirus.b-cdn.net/wp-content/uploads/2021/08/Disco-Elysium-4-scaled.jpg",
                 ReleaseDates =
                 [
@@ -390,7 +390,7 @@ public class GameSeed
                 Platforms = ["Windows", "PlayStation 4", "iOS", "Linux", "macOS", "Nintendo Switch"],
                 Genres = ["Action role-playing", "turn-based strategy"],
                 Modes = ["Single-player"],
-                Cover = "https://en.wikipedia.org/wiki/Transistor_(video_game)#/media/File:Transistor_art.jpg",
+                Cover = "https://cdn.mobygames.com/covers/6461287-transistor-nintendo-switch-front-cover.jpg",
                 Artwork = "https://cdn1.epicgames.com/undefined/offer/Transistor_Primary_Promo-2580x1450-80b4204d1dbee38616e1484a262f1a94.jpg",
                 ReleaseDates =
                 [
