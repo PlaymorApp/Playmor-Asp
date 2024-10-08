@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Playmor_Asp.Data;
-using Playmor_Asp.Interfaces;
-using Playmor_Asp.Repositories;
-using Playmor_Asp.Seeders;
-using Playmor_Asp.Services;
+using Playmor_Asp.Application.Interfaces;
+using Playmor_Asp.Application.Services;
+using Playmor_Asp.Infrastructure.Data;
+using Playmor_Asp.Infrastructure.Repositories;
+using Playmor_Asp.Infrastructure.Seeders;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(options =>
