@@ -22,7 +22,7 @@ namespace Playmor_Asp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Playmor_Asp.Models.Game", b =>
+            modelBuilder.Entity("Playmor_Asp.Domain.Models.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,6 +37,10 @@ namespace Playmor_Asp.Migrations
                     b.Property<string>("Cover")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -72,16 +76,20 @@ namespace Playmor_Asp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("Playmor_Asp.Models.User", b =>
+            modelBuilder.Entity("Playmor_Asp.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -118,12 +126,12 @@ namespace Playmor_Asp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Playmor_Asp.Models.Game", b =>
+            modelBuilder.Entity("Playmor_Asp.Domain.Models.Game", b =>
                 {
-                    b.OwnsMany("Playmor_Asp.Models.Game.ReleaseDates#Playmor_Asp.Models.ReleaseDate", "ReleaseDates", b1 =>
+                    b.OwnsMany("Playmor_Asp.Domain.Models.ReleaseDate", "ReleaseDates", b1 =>
                         {
                             b1.Property<int>("GameId")
                                 .HasColumnType("int");
@@ -143,13 +151,13 @@ namespace Playmor_Asp.Migrations
 
                             b1.HasKey("GameId", "Id");
 
-                            b1.ToTable("ReleaseDate", (string)null);
+                            b1.ToTable("ReleaseDate");
 
                             b1.WithOwner()
                                 .HasForeignKey("GameId");
                         });
 
-                    b.OwnsMany("Playmor_Asp.Models.Game.WebsiteLinks#Playmor_Asp.Models.Website", "WebsiteLinks", b1 =>
+                    b.OwnsMany("Playmor_Asp.Domain.Models.Website", "WebsiteLinks", b1 =>
                         {
                             b1.Property<int>("GameId")
                                 .HasColumnType("int");
@@ -170,7 +178,7 @@ namespace Playmor_Asp.Migrations
 
                             b1.HasKey("GameId", "Id");
 
-                            b1.ToTable("Website", (string)null);
+                            b1.ToTable("Website");
 
                             b1.WithOwner()
                                 .HasForeignKey("GameId");
