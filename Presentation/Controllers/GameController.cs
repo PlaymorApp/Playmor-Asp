@@ -25,6 +25,28 @@ public class GameController : Controller
         return Ok(games);
     }
 
+    [HttpGet("games/added")]
+    [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
+    [ProducesResponseType(400)]
+    public IActionResult GetGamesByAddedDate([FromQuery] string sort)
+    {
+        var games = _gameService.GetGamesByAddedDate(sort);
+
+        if (!ModelState.IsValid) { return BadRequest(ModelState); }
+        return Ok(games);
+    }
+
+    [HttpGet("games/released")]
+    [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
+    [ProducesResponseType(400)]
+    public IActionResult GetGamesByReleaseDate([FromQuery] string sort)
+    {
+        var games = _gameService.GetGamesByReleaseDate(sort);
+
+        if (!ModelState.IsValid) { return BadRequest(ModelState); }
+        return Ok(games);
+    }
+
     [HttpGet("games/{gameId}")]
     [ProducesResponseType(200, Type = typeof(Game))]
     [ProducesResponseType(400)]

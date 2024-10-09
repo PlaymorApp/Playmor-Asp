@@ -36,6 +36,18 @@ public class GameService : IGameService
         return _gameRepository.GetAll();
     }
 
+    public ICollection<Game> GetGamesByAddedDate(string order)
+    {
+        if (order == "desc") return _gameRepository.GetByAddedDate(Domain.Enums.SortOrder.desc);
+        return _gameRepository.GetByAddedDate(Domain.Enums.SortOrder.asc);
+    }
+
+    public ICollection<Game> GetGamesByReleaseDate(string order)
+    {
+        if (order == "desc") return _gameRepository.GetByReleaseDate(Domain.Enums.SortOrder.desc);
+        return _gameRepository.GetByReleaseDate(Domain.Enums.SortOrder.asc);
+    }
+
     public ICollection<Game> GetGamesByGenres(ICollection<string> genres)
     {
         return _gameRepository.GetByGenres(genres);
