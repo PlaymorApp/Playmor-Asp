@@ -7,5 +7,8 @@ public enum WebsiteNames
     EpicGames,
     Microsoft,
     GOG,
+    Nintendo,
+    Blizzard,
+    Sony,
     Other
 }

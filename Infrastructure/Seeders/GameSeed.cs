@@ -439,6 +439,583 @@ public class GameSeed
                     }
                 ]
             },
+            new Game ()
+            {
+                Title = "Celeste",
+                Description = "Celeste is a platformer game developed by Maddy Makes Games, released in January 2018. The game follows a young woman named Madeline as she makes her way up Celeste Mountain, confronting her inner demons along the journey. Known for its challenging gameplay and touching story, Celeste has received widespread acclaim.",
+                Details = "# Gameplay \n\r\n\r\nCeleste features tight and responsive controls, allowing players to perform precise jumps and maneuvers through a series of challenging levels. Players must navigate through hazardous environments filled with spikes, moving platforms, and other obstacles. The game also includes a variety of collectibles and secret levels to enhance replayability.\r\n\r\n# Plot \n\r\n\r\nAs Madeline ascends Celeste Mountain, she faces various challenges, both physical and emotional. The narrative explores themes of mental health, self-acceptance, and perseverance. Throughout her journey, she encounters a range of characters, including her doppelgänger, who serves as a representation of her fears and doubts. Ultimately, Madeline learns to embrace her true self and the importance of seeking help when facing struggles.",
+                Developer = ["Maddy Makes Games"],
+                Publisher = ["Maddy Makes Games"],
+                Platforms = ["Windows", "Nintendo Switch", "PlayStation 4", "Xbox One", "macOS"],
+                Genres = ["Platformer", "Indie"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/1272647-celeste-playstation-4-front-cover.jpg",
+                Artwork = "https://images7.alphacoders.com/901/thumb-1920-901149.png",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("January 25, 2018"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("January 25, 2018"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("January 25, 2018"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("January 25, 2018"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "macOS",
+                        Date = DateTime.Parse("January 25, 2018"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/504230/Celeste/"
+                    },
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteLink = "https://www.epicgames.com/store/en-US/p/celeste"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Undertale",
+                Description = "Undertale is an indie role-playing video game created by Toby Fox, released in September 2015. The game features a unique combat system and an engaging story where players navigate the underground world of monsters. Undertale is known for its humor, memorable characters, and the impact of player choices on the game's outcome.",
+                Details = "# Gameplay \n\r\n\r\nIn Undertale, players control a child who falls into the Underground, a realm populated by monsters. The game allows players to choose whether to fight, flee, or befriend enemies. The combat system involves a bullet hell mechanic where players must dodge attacks while making choices that affect the story.\r\n\r\n# Plot \n\r\n\r\nThe story follows the protagonist as they seek a way to return to the surface. Throughout their journey, they encounter various monsters, including Toriel, Sans, and Undyne, each with their own backstories and motivations. The choices players make throughout the game influence the narrative, leading to multiple endings. Themes of friendship, sacrifice, and morality are central to the experience, encouraging players to reflect on their decisions.",
+                Developer = ["Toby Fox"],
+                Publisher = ["Toby Fox"],
+                Platforms = ["Windows", "macOS", "Linux", "PlayStation 4", "Nintendo Switch"],
+                Genres = ["Role-playing", "Indie"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/2767756-undertale-ps-vita-front-cover.jpg",
+                Artwork = "https://getwallpapers.com/wallpaper/full/7/b/b/311864.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("September 15, 2015"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "macOS",
+                        Date = DateTime.Parse("September 15, 2015"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Linux",
+                        Date = DateTime.Parse("September 15, 2015"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("August 15, 2017"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("September 18, 2018"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/391420/Undertale/"
+                    },
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteLink = "https://www.epicgames.com/store/en-US/p/undertale"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "The Legend of Zelda: Breath of the Wild",
+                Description = "The Legend of Zelda: Breath of the Wild is an action-adventure game developed and published by Nintendo, released in March 2017. Set in a vast open world, players control Link as he awakens from a long slumber to defeat Calamity Ganon and save Hyrule.",
+                Details = "# Gameplay \n\r\n\r\nBreath of the Wild emphasizes exploration and player freedom, allowing players to tackle challenges in various ways. Players can climb mountains, glide through the air, and interact with the environment. The game also features a cooking system and an extensive array of weapons.\r\n\r\n# Plot \n\r\n\r\nAfter a century of slumber, Link awakens to a Hyrule devastated by Calamity Ganon. He sets out to reclaim his memories, gather allies, and confront Ganon to save Princess Zelda and restore peace to the kingdom.",
+                Developer = ["Nintendo"],
+                Publisher = ["Nintendo"],
+                Platforms = ["Nintendo Switch", "Wii U"],
+                Genres = ["Action-adventure", "Open world"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/8437198-the-legend-of-zelda-breath-of-the-wild-wii-u-front-cover.jpgg",
+                Artwork = "https://images.hdqwalls.com/download/the-legend-of-zelda-breath-of-wild-game-4k-mi-1920x1080.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("March 3, 2017"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Wii U",
+                        Date = DateTime.Parse("March 3, 2017"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Nintendo,
+                        WebsiteLink = "https://www.zelda.com/breath-of-the-wild/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Dark Souls III",
+                Description = "Dark Souls III is an action role-playing game developed by FromSoftware and released in March 2016. It is known for its challenging gameplay and intricate world design, continuing the series' legacy of dark fantasy and deep lore.",
+                Details = "# Gameplay \n\r\n\r\nDark Souls III features a deep combat system, allowing players to wield a variety of weapons and spells. The game includes a new 'posture' system, encouraging aggressive gameplay. Players explore interconnected environments filled with traps, enemies, and bosses.\r\n\r\n# Plot \n\r\n\r\nSet in the kingdom of Lothric, players take on the role of the Ashen One, tasked with linking the fire and battling the Lords of Cinder who have risen once more. The game explores themes of cycles, rebirth, and the struggle against inevitable death.",
+                Developer = ["FromSoftware"],
+                Publisher = ["Bandai Namco Entertainment"],
+                Platforms = ["Windows", "PlayStation 4", "Xbox One"],
+                Genres = ["Action role-playing", "Dark fantasy"],
+                Modes = ["Single-player", "Multiplayer"],
+                Cover = "https://cdn.mobygames.com/covers/2942369-dark-souls-iii-playstation-4-front-cover.jpg",
+                Artwork = "https://wallpaperaccess.com/full/1351989.png",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("March 24, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("March 24, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("March 24, 2016"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/374320/DARK_SOULS_III/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Persona 5",
+                Description = "Persona 5 is a role-playing game developed by Atlus, released in September 2016. It follows a group of high school students who become Phantom Thieves, exploring themes of rebellion, friendship, and self-discovery.",
+                Details = "# Gameplay \n\r\n\r\nPersona 5 combines traditional turn-based combat with social simulation elements. Players balance their daily lives, attending school and forming relationships while exploring dungeons and battling shadows. The game's stylish art direction and music have received widespread praise.\r\n\r\n# Plot \n\r\n\r\nPlayers control a character known as the Joker, who is sent to Tokyo for a year after being falsely accused of a crime. Along with friends, he gains the ability to summon Personas to battle foes in the Metaverse, a realm formed from human desires. The story unfolds as the Phantom Thieves aim to change the hearts of corrupt adults.",
+                Developer = ["Atlus"],
+                Publisher = ["Atlus"],
+                Platforms = ["PlayStation 3", "PlayStation 4"],
+                Genres = ["Role-playing", "Simulation"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/2784014-persona-5-ultimate-edition-playstation-3-front-cover.jpg",
+                Artwork = "https://getwallpapers.com/wallpaper/full/e/a/c/68655.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 3",
+                        Date = DateTime.Parse("September 15, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("September 15, 2016"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/538510/PERSONA_5/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "God of War (2018)",
+                Description = "God of War is an action-adventure game developed by Santa Monica Studio and published by Sony Interactive Entertainment, released in April 2018. This installment follows Kratos, now living in the world of Norse mythology, as he embarks on a journey with his son, Atreus.",
+                Details = "# Gameplay \n\r\n\r\nThe game features an over-the-shoulder camera perspective, enhancing the narrative experience. Players engage in combat with a variety of weapons, including the iconic Leviathan Axe, and solve puzzles throughout the world. The game emphasizes exploration and character development.\r\n\r\n# Plot \n\r\n\r\nYears after the events of the previous series, Kratos lives in Norse territory and must guide Atreus after the death of his wife. As they journey to fulfill her last wish, they encounter gods and monsters from Norse mythology, leading to a tale of growth, conflict, and fatherhood.",
+                Developer = ["Santa Monica Studio"],
+                Publisher = ["Sony Interactive Entertainment"],
+                Platforms = ["PlayStation 4", "Windows"],
+                Genres = ["Action-adventure", "Hack and slash"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/2124584-god-of-war-digital-deluxe-edition-playstation-4-front-cover.jpg",
+                Artwork = "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/ax0V5TYMax06mLzmkWeQMiwH.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("April 20, 2018"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("January 14, 2022"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Sony,
+                        WebsiteLink = "https://www.playstation.com/en-us/games/god-of-war/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Overwatch",
+                Description = "Overwatch is a team-based multiplayer first-person shooter developed by Blizzard Entertainment, released in May 2016. Players choose from a roster of heroes, each with unique abilities, to compete in objective-based gameplay.",
+                Details = "# Gameplay \n\r\n\r\nThe game features diverse characters with distinct roles: Damage, Tank, and Support. Players must work together to secure objectives and defeat the opposing team. Overwatch emphasizes teamwork, strategy, and coordination.\r\n\r\n# Plot \n\r\n\r\nSet in a near-future Earth, Overwatch is a response to the rise of violence and conflict. The organization, originally a peacekeeping force, was disbanded but has now reformed to combat global threats and restore order.",
+                Developer = ["Blizzard Entertainment"],
+                Publisher = ["Blizzard Entertainment"],
+                Platforms = ["Windows", "PlayStation 4", "Xbox One", "Nintendo Switch"],
+                Genres = ["First-person shooter", "Team-based shooter"],
+                Modes = ["Multiplayer"],
+                Cover = "https://cdn.mobygames.com/covers/10372520-overwatch-origins-edition-xbox-one-front-cover.png",
+                Artwork = "https://wallpapercave.com/wp/wp5843708.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("May 24, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("May 24, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("May 24, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("October 15, 2019"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Blizzard,
+                        WebsiteLink = "https://playoverwatch.com/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Sekiro: Shadows Die Twice",
+                Description = "Sekiro: Shadows Die Twice is an action-adventure game developed by FromSoftware, released in March 2019. Set in a reimagined late 1500s Sengoku period Japan, it follows a shinobi named Sekiro.",
+                Details = "# Gameplay \n\r\n\r\nPlayers utilize stealth, exploration, and combat to defeat foes, focusing on precise swordplay and parrying mechanics.\r\n\r\n# Plot \n\r\n\r\nThe story follows Sekiro as he seeks to rescue his kidnapped lord and exact revenge on his enemies, including the dangerous Ashina clan.",
+                Developer = ["FromSoftware"],
+                Publisher = ["Activision"],
+                Platforms = ["Windows", "PlayStation 4", "Xbox One"],
+                Genres = ["Action-adventure", "Stealth"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/7747217-sekiro-shadows-die-twice-playstation-4-front-cover.jpg",
+                Artwork = "https://cdn.mobygames.com/promos/6077418-sekiro-shadows-die-twice-screenshot.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("March 22, 2019"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("March 22, 2019"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("March 22, 2019"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/814380/Sekiro_Shadows_Die_Twice/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Stardew Valley",
+                Description = "Stardew Valley is a farming simulation role-playing game developed by ConcernedApe, released in February 2016. Players inherit a run-down farm and strive to turn it into a thriving business.",
+                Details = "# Gameplay \n\r\n\r\nThe game allows players to grow crops, raise animals, mine for resources, and engage with the community through festivals and quests.\r\n\r\n# Plot \n\r\n\r\nAfter inheriting a farm from their grandfather, players must restore the land, form relationships with villagers, and explore the surrounding wilderness.",
+                Developer = ["ConcernedApe"],
+                Publisher = ["ConcernedApe"],
+                Platforms = ["Windows", "macOS", "Linux", "Nintendo Switch", "PlayStation 4", "Xbox One", "iOS", "Android"],
+                Genres = ["Simulation", "Role-playing"],
+                Modes = ["Single-player", "Multiplayer"],
+                Cover = "https://cdn.mobygames.com/covers/10673803-stardew-valley-nintendo-switch-front-cover.jpg",
+                Artwork = "https://cdn.mobygames.com/promos/1825384-stardew-valley-screenshot.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("February 26, 2016"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("October 5, 2017"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("December 21, 2016"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/413150/Stardew_Valley/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Ghost of Tsushima",
+                Description = "Ghost of Tsushima is an action-adventure game developed by Sucker Punch Productions, released in July 2020. Set in feudal Japan, players control samurai Jin Sakai during the Mongol invasion.",
+                Details = "# Gameplay \n\r\n\r\nPlayers explore an open world, engage in combat, and utilize stealth to defeat enemies. The game features a beautiful landscape inspired by Japanese culture and aesthetics.\r\n\r\n# Plot \n\r\n\r\nJin must adapt to new combat techniques to protect Tsushima Island, grappling with his samurai code while embracing new methods to combat the Mongol threat.",
+                Developer = ["Sucker Punch Productions"],
+                Publisher = ["Sony Interactive Entertainment"],
+                Platforms = ["PlayStation 4", "PlayStation 5"],
+                Genres = ["Action-adventure", "Stealth"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/11280846-ghost-of-tsushima-playstation-4-front-cover.jpg",
+                Artwork = "https://i.redd.it/m6jwv8pd9ea41.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("July 17, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 5",
+                        Date = DateTime.Parse("August 20, 2021"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Sony,
+                        WebsiteLink = "https://www.playstation.com/en-us/games/ghost-of-tsushima/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "DOOM Eternal",
+                Description = "DOOM Eternal is a first-person shooter developed by id Software, released in March 2020. It follows the Doom Slayer as he battles demons across various dimensions.",
+                Details = "# Gameplay \n\r\n\r\nThe game features fast-paced combat, platforming elements, and a variety of weapons and abilities. Players must navigate complex levels while defeating hordes of enemies.\r\n\r\n# Plot \n\r\n\r\nDoom Slayer returns to confront the Hell forces that threaten humanity, battling powerful demons to save Earth and uncover the truth about his past.",
+                Developer = ["id Software"],
+                Publisher = ["Bethesda Softworks"],
+                Platforms = ["Windows", "PlayStation 4", "Xbox One", "Nintendo Switch"],
+                Genres = ["First-person shooter"],
+                Modes = ["Single-player", "Multiplayer"],
+                Cover = "https://cdn.mobygames.com/covers/8654561-doom-eternal-playstation-4-front-cover.jpg",
+                Artwork = "https://cdn.mobygames.com/promos/9840391-doom-eternal-other.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("March 20, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("March 20, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("March 20, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("December 8, 2020"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/782330/DOOM_Eternal/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Control",
+                Description = "Control is an action-adventure game developed by Remedy Entertainment, released in August 2019. Players control Jesse Faden as she navigates the mysterious Federal Bureau of Control.",
+                Details = "# Gameplay \n\r\n\r\nThe game combines third-person shooting with supernatural abilities, allowing players to manipulate the environment and engage in combat with various enemies.\r\n\r\n# Plot \n\r\n\r\nJesse searches for her missing brother in the Bureau's shifting and supernatural headquarters, unraveling secrets about her own powers and the building's strange occurrences.",
+                Developer = ["Remedy Entertainment"],
+                Publisher = ["505 Games"],
+                Platforms = ["Windows", "PlayStation 4", "Xbox One", "Nintendo Switch"],
+                Genres = ["Action-adventure", "Third-person shooter"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/8862245-control-playstation-4-front-cover.jpg",
+                Artwork = "https://cdn.mobygames.com/promos/11140223-control-ultimate-edition-screenshot.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("August 27, 2019"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("August 27, 2019"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("August 27, 2019"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("October 28, 2020"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/870780/Control/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Final Fantasy VII Remake",
+                Description = "Final Fantasy VII Remake is an action role-playing game developed by Square Enix, released in April 2020. It reimagines the classic 1997 game, focusing on the first part of the story.",
+                Details = "# Gameplay \n\r\n\r\nThe game features real-time combat combined with strategic elements, allowing players to switch between characters and utilize various abilities.\r\n\r\n# Plot \n\r\n\r\nPlayers follow Cloud Strife as he joins the eco-terrorist group AVALANCHE to take down the Shinra Corporation and uncover the truth about his past.",
+                Developer = ["Square Enix"],
+                Publisher = ["Square Enix"],
+                Platforms = ["PlayStation 4", "PlayStation 5", "Windows"],
+                Genres = ["Action role-playing", "Adventure"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/8707152-final-fantasy-vii-remake-playstation-4-front-cover.png",
+                Artwork = "https://cdn.mobygames.com/promos/8588807-final-fantasy-vii-remake-other.jpg",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("April 10, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 5",
+                        Date = DateTime.Parse("June 10, 2021"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("December 16, 2021"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/1134570/FINAL_FANTASY_VII_REMAKE_Intergrade/"
+                    }
+                ]
+            },
+            new Game ()
+            {
+                Title = "Hades",
+                Description = "Hades is a roguelike dungeon crawler developed by Supergiant Games, released in September 2020. Players control Zagreus, the son of Hades, as he attempts to escape the Underworld.",
+                Details = "# Gameplay \n\r\n\r\nThe game features fast-paced combat, with players choosing different weapons and abilities each run. Players encounter various characters from Greek mythology who provide assistance.\r\n\r\n# Plot \n\r\n\r\nZagreus seeks to escape from the Underworld to reach Mount Olympus, facing various foes and uncovering his family’s secrets along the way.",
+                Developer = ["Supergiant Games"],
+                Publisher = ["Supergiant Games"],
+                Platforms = ["Windows", "macOS", "Nintendo Switch", "PlayStation 4", "PlayStation 5", "Xbox One", "Xbox Series X/S"],
+                Genres = ["Roguelike", "Dungeon crawler"],
+                Modes = ["Single-player"],
+                Cover = "https://cdn.mobygames.com/covers/10377246-hades-windows-apps-front-cover.jpg",
+                Artwork = "https://www.mobygames.com/images/promo/l/771572-hades-other.png",
+                ReleaseDates =
+                [
+                    new ReleaseDate()
+                    {
+                        Platform = "Windows",
+                        Date = DateTime.Parse("September 17, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Nintendo Switch",
+                        Date = DateTime.Parse("September 17, 2020"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "PlayStation 4",
+                        Date = DateTime.Parse("August 13, 2021"),
+                    },
+                    new ReleaseDate()
+                    {
+                        Platform = "Xbox One",
+                        Date = DateTime.Parse("August 13, 2021"),
+                    }
+                ],
+                WebsiteLinks =
+                [
+                    new Website()
+                    {
+                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteLink = "https://store.steampowered.com/app/1145360/Hades/"
+                    }
+                ]
+            }
+
             ];
             dataContext.Games.AddRange(games);
             dataContext.SaveChanges();
