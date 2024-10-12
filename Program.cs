@@ -6,6 +6,7 @@ using Playmor_Asp.Application.Services;
 using Playmor_Asp.Infrastructure.Data;
 using Playmor_Asp.Infrastructure.Repositories;
 using Playmor_Asp.Infrastructure.Seeders;
+using Playmor_Asp.Presentation.Middlewares;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -17,21 +18,27 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddTransient<GameSeed>();
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
+builder.Services.AddTransient<HttpRequestLoggingMiddleware>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,8 +74,6 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-
-
 var app = builder.Build();
 
 if (args.Length == 1 && args[0].Equals("seeddata", StringComparison.CurrentCultureIgnoreCase))
@@ -96,10 +101,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+app.UseMiddleware<HttpRequestLoggingMiddleware>();
+
 app.MapControllers();
+
 app.UseCors(builder =>
 {
     builder.WithOrigins("https://localhost:5173")
@@ -107,4 +118,5 @@ app.UseCors(builder =>
                         .AllowAnyMethod()
                         .AllowCredentials(); // Allow cookies and credentials
 });
+
 app.Run();
