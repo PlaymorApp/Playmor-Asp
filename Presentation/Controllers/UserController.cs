@@ -23,19 +23,12 @@ public class UserController : Controller
     [Authorize]
     public IActionResult GetUser(int userId)
     {
-        try
+        var user = _userService.GetUserById(userId);
+        if (user == null)
         {
-            var user = _userService.GetUserById(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            return Ok(user);
+            return NotFound();
         }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        }
+        if (!ModelState.IsValid) { return BadRequest(ModelState); }
+        return Ok(user);
     }
 }
