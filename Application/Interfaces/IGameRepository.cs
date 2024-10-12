@@ -9,6 +9,7 @@ public interface IGameRepository
 {
     Game? Get(int id);
     ICollection<Game> GetAll();
+    ICollection<Game> GetPaginated(int pageNumber, int pageSize);
     ICollection<Game> GetByTitle(string title);
     ICollection<Game> GetByKeyword(string keyword);
     ICollection<Game> GetByAddedDate(SortOrder sortOrder);

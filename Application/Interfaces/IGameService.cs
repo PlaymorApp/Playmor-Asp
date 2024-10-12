@@ -9,6 +9,7 @@ public interface IGameService
     bool UpdateGame(int id, Game game);
     bool DeleteGame(int id);
     ICollection<Game> GetGames();
+    ICollection<Game> GetPaginatedGames(int pageNumber, int pageSize);
     ICollection<Game> GetGamesByAddedDate(string order);
     ICollection<Game> GetGamesByReleaseDate(string order);
     ICollection<Game> GetGamesByTitle(string title);

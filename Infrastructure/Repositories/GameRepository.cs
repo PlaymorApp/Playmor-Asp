@@ -24,6 +24,15 @@ public class GameRepository : IGameRepository
         return _context.Games.OrderBy(game => game.Id).ToList();
     }
 
+    public ICollection<Game> GetPaginated(int pageNumber, int pageSize)
+    {
+        return _context.Games
+            .OrderBy(game => game.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+    }
+
     public ICollection<Game> GetByGenres(ICollection<string> genres)
     {
         return _context.Games.Where(g => g.Genres.Any(genre => genres.Contains(genre.ToLower()))).ToList();

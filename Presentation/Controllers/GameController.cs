@@ -25,6 +25,16 @@ public class GameController : Controller
         return Ok(games);
     }
 
+    [HttpGet("games/paginated")]
+    [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
+    [ProducesResponseType(400)]
+    public IActionResult GetPaginatedGames([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    {
+        var games = _gameService.GetPaginatedGames(pageNumber, pageSize);
+        if (!ModelState.IsValid) { return BadRequest(ModelState); }
+        return Ok(games);
+    }
+
     [HttpGet("games/added")]
     [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
     [ProducesResponseType(400)]
