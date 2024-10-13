@@ -16,21 +16,21 @@ public class GameController : Controller
 
     [HttpGet("games")]
     [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
-    [ProducesResponseType(400)]
-    public IActionResult GetGames()
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesAsync()
     {
-        var games = _gameService.GetGames();
+        var games = await _gameService.GetGamesAsync();
 
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
     }
 
     [HttpGet("games/paginated")]
     [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
     [ProducesResponseType(400)]
-    public IActionResult GetPaginatedGames([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetPaginatedGamesAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
-        var games = _gameService.GetPaginatedGames(pageNumber, pageSize);
+        var games = await _gameService.GetPaginatedGamesAsync(pageNumber, pageSize);
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
     }
@@ -38,9 +38,10 @@ public class GameController : Controller
     [HttpGet("games/added")]
     [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
     [ProducesResponseType(400)]
-    public IActionResult GetGamesByAddedDate([FromQuery] string sort)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesByAddedDateAsync([FromQuery] string sort)
     {
-        var games = _gameService.GetGamesByAddedDate(sort);
+        var games = await _gameService.GetGamesByAddedDateAsync(sort);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
@@ -49,9 +50,10 @@ public class GameController : Controller
     [HttpGet("games/released")]
     [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
     [ProducesResponseType(400)]
-    public IActionResult GetGamesByReleaseDate([FromQuery] string sort)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesByReleaseDateAsync([FromQuery] string sort)
     {
-        var games = _gameService.GetGamesByReleaseDate(sort);
+        var games = await _gameService.GetGamesByReleaseDateAsync(sort);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
@@ -61,9 +63,10 @@ public class GameController : Controller
     [ProducesResponseType(200, Type = typeof(Game))]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
-    public IActionResult GetGame(int gameId)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGameAsync(int gameId)
     {
-        var game = _gameService.GetGame(gameId);
+        var game = await _gameService.GetGameAsync(gameId);
         if (game == null)
         {
             return NotFound();
@@ -75,9 +78,10 @@ public class GameController : Controller
     [HttpGet("games/title/{title}")]
     [ProducesResponseType(200, Type = typeof(Game))]
     [ProducesResponseType(400)]
-    public IActionResult GetGamesByTitle(string title)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesByTitleAsync(string title)
     {
-        var games = _gameService.GetGamesByTitle(title);
+        var games = await _gameService.GetGamesByTitleAsync(title);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
@@ -86,9 +90,10 @@ public class GameController : Controller
     [HttpGet("games/genres")]
     [ProducesResponseType(200, Type = typeof(Game))]
     [ProducesResponseType(400)]
-    public IActionResult GetGamesByGenres([FromQuery] ICollection<string> genres)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesByGenresAsync([FromQuery] ICollection<string> genres)
     {
-        var games = _gameService.GetGamesByGenres(genres);
+        var games = await _gameService.GetGamesByGenresAsync(genres);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
@@ -97,9 +102,10 @@ public class GameController : Controller
     [HttpGet("games/modes")]
     [ProducesResponseType(200, Type = typeof(Game))]
     [ProducesResponseType(400)]
-    public IActionResult GetGamesByModes([FromQuery] ICollection<string> modes)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesByModesAsync([FromQuery] ICollection<string> modes)
     {
-        var games = _gameService.GetGamesByModes(modes);
+        var games = await _gameService.GetGamesByModesAsync(modes);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);
@@ -108,9 +114,10 @@ public class GameController : Controller
     [HttpGet("games/keyword/{keyword}")]
     [ProducesResponseType(200, Type = typeof(Game))]
     [ProducesResponseType(400)]
-    public IActionResult GetGamesByKeyword(string keyword)
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetGamesByKeywordAsync(string keyword)
     {
-        var games = _gameService.GetGamesByKeyword(keyword);
+        var games = await _gameService.GetGamesByKeywordAsync(keyword);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
         return Ok(games);

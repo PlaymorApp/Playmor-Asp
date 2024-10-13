@@ -13,116 +13,116 @@ public class GameService : IGameService
         _gameRepository = gameRepository;
     }
 
-    public bool CreateGame(Game game)
+    public async Task<bool> CreateGameAsync(Game game)
     {
-        return _gameRepository.Create(game);
+        return await _gameRepository.CreateAsync(game);
     }
 
-    public bool DeleteGame(int id)
+    public async Task<bool> DeleteGameAsync(int id)
     {
         if (id < 1)
         {
             throw new ArgumentException("Invalid argument passed. Id can't be lower than 1");
         }
 
-        return _gameRepository.Delete(id);
+        return await _gameRepository.DeleteAsync(id);
     }
 
-    public Game? GetGame(int id)
+    public async Task<Game?> GetGameAsync(int id)
     {
         if (id < 1)
         {
             throw new ArgumentException("Invalid argument passed. Id can't be lower than 1");
         }
 
-        return _gameRepository.Get(id);
+        return await _gameRepository.GetAsync(id);
     }
 
-    public bool UpdateGame(int id, Game game)
+    public async Task<bool> UpdateGameAsync(int id, Game game)
     {
         if (id < 1)
         {
             throw new ArgumentException("Invalid argument passed. Id can't be lower than 1");
         }
 
-        if (_gameRepository.Get(id) == null)
+        if (await _gameRepository.GetAsync(id) == null)
         {
             throw new InvalidOperationException("Invalid argument passed. No game found under such id.");
         }
 
-        return _gameRepository.Update(id, game);
+        return await _gameRepository.UpdateAsync(id, game);
     }
 
-    public ICollection<Game> GetGames()
+    public async Task<ICollection<Game>> GetGamesAsync()
     {
-        return _gameRepository.GetAll();
+        return await _gameRepository.GetAllAsync();
     }
 
-    public ICollection<Game> GetPaginatedGames(int pageNumber, int pageSize)
+    public async Task<ICollection<Game>> GetPaginatedGamesAsync(int pageNumber, int pageSize)
     {
         if (pageNumber < 1 || pageSize < 1)
         {
             throw new ArgumentException("Invalid argument passed. PageNumber and PageSize should be >= 1");
         }
 
-        return _gameRepository.GetPaginated(pageNumber, pageSize);
+        return await _gameRepository.GetPaginatedAsync(pageNumber, pageSize);
     }
 
-    public ICollection<Game> GetGamesByAddedDate(string order)
+    public async Task<ICollection<Game>> GetGamesByAddedDateAsync(string order)
     {
         if (order != "desc" && order != "asc")
         {
             throw new ArgumentException("Invalid argument passed. Order has to be 'asc' or 'desc'");
         }
 
-        if (order == "desc") return _gameRepository.GetByAddedDate(Domain.Enums.SortOrder.desc);
-        return _gameRepository.GetByAddedDate(Domain.Enums.SortOrder.asc);
+        if (order == "desc") return await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.desc);
+        return await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.asc);
     }
 
-    public ICollection<Game> GetGamesByReleaseDate(string order)
+    public async Task<ICollection<Game>> GetGamesByReleaseDateAsync(string order)
     {
         if (order != "desc" && order != "asc")
         {
             throw new ArgumentException("Invalid argument passed. Order has to be 'asc' or 'desc'");
         }
 
-        if (order == "desc") return _gameRepository.GetByReleaseDate(Domain.Enums.SortOrder.desc);
-        return _gameRepository.GetByReleaseDate(Domain.Enums.SortOrder.asc);
+        if (order == "desc") return await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.desc);
+        return await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.asc);
     }
 
-    public ICollection<Game> GetGamesByGenres(ICollection<string> genres)
+    public async Task<ICollection<Game>> GetGamesByGenresAsync(ICollection<string> genres)
     {
         if (genres.IsNullOrEmpty())
         {
             throw new ArgumentException("Invalid argument passed. Genres can't be null or empty");
         }
 
-        return _gameRepository.GetByGenres(genres);
+        return await _gameRepository.GetByGenresAsync(genres);
     }
 
-    public ICollection<Game> GetGamesByKeyword(string keyword)
+    public async Task<ICollection<Game>> GetGamesByKeywordAsync(string keyword)
     {
         if (keyword.IsNullOrEmpty())
         {
             throw new ArgumentException("Invalid argument passed. Keyword can't be null or empty");
         }
 
-        return _gameRepository.GetByKeyword(keyword);
+        return await _gameRepository.GetByKeywordAsync(keyword);
     }
 
-    public ICollection<Game> GetGamesByModes(ICollection<string> modes)
+    public async Task<ICollection<Game>> GetGamesByModesAsync(ICollection<string> modes)
     {
         if (modes.IsNullOrEmpty())
         {
             throw new ArgumentException("Invalid argument passed. Modes can't be null or empty");
         }
 
-        return _gameRepository.GetByModes(modes);
+        return await _gameRepository.GetByModesAsync(modes);
     }
 
-    public ICollection<Game> GetGamesByTitle(string title)
+    public async Task<ICollection<Game>> GetGamesByTitleAsync(string title)
     {
 
-        return _gameRepository.GetByTitle(title);
+        return await _gameRepository.GetByTitleAsync(title);
     }
 }

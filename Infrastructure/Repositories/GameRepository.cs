@@ -1,4 +1,5 @@
-﻿using Playmor_Asp.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
 using Playmor_Asp.Infrastructure.Data;
@@ -14,56 +15,55 @@ public class GameRepository : IGameRepository
         _context = dataContext;
     }
 
-    public Game? Get(int id)
+    public async Task<Game?> GetAsync(int id)
     {
-        return _context.Games.FirstOrDefault(g => g.Id == id);
+        return await _context.Games.FirstOrDefaultAsync(g => g.Id == id);
     }
 
-    public ICollection<Game> GetAll()
+    public async Task<ICollection<Game>> GetAllAsync()
     {
-        return _context.Games.OrderBy(game => game.Id).ToList();
+        var games = await _context.Games.OrderBy(game => game.Id).ToListAsync();
+        return games;
     }
 
-    public ICollection<Game> GetPaginated(int pageNumber, int pageSize)
+    public async Task<ICollection<Game>> GetPaginatedAsync(int pageNumber, int pageSize)
     {
-        return _context.Games
+        return await _context.Games
             .OrderBy(game => game.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToList();
+            .ToListAsync();
     }
 
-    public ICollection<Game> GetByGenres(ICollection<string> genres)
+    public async Task<ICollection<Game>> GetByGenresAsync(ICollection<string> genres)
     {
-        return _context.Games.Where(g => g.Genres.Any(genre => genres.Contains(genre.ToLower()))).ToList();
+        return await _context.Games.Where(g => g.Genres.Any(genre => genres.Contains(genre.ToLower()))).ToListAsync();
     }
 
-    public ICollection<Game> GetByKeyword(string keyword)
+    public async Task<ICollection<Game>> GetByKeywordAsync(string keyword)
     {
-        var query = _context.Games.AsQueryable();
-
         if (string.IsNullOrWhiteSpace(keyword))
         {
-            return new List<Game>();
+            return [];
         }
 
-        var titleMatches = query.Where(g => g.Title.Contains(keyword));
-        var descriptionMatches = query.Where(g => g.Description.Contains(keyword));
-        var developerMatches = query.Where(g => g.Developer.Any(dev => dev.Contains(keyword)));
-        var publisherMatches = query.Where(g => g.Publisher.Any(pub => pub.Contains(keyword)));
-        var genreMatches = query.Where(g => g.Genres.Any(genre => genre.Contains(keyword)));
-        var modeMatches = query.Where(g => g.Modes.Any(mode => mode.Contains(keyword)));
+        var titleMatches = _context.Games.Where(g => g.Title.Contains(keyword));
+        var descriptionMatches = _context.Games.Where(g => g.Description.Contains(keyword));
+        var developerMatches = _context.Games.Where(g => g.Developer.Any(dev => dev.Contains(keyword)));
+        var publisherMatches = _context.Games.Where(g => g.Publisher.Any(pub => pub.Contains(keyword)));
+        var genreMatches = _context.Games.Where(g => g.Genres.Any(genre => genre.Contains(keyword)));
+        var modeMatches = _context.Games.Where(g => g.Modes.Any(mode => mode.Contains(keyword)));
 
-        return titleMatches
+        return await titleMatches
             .Union(descriptionMatches)
             .Union(developerMatches)
             .Union(publisherMatches)
             .Union(genreMatches)
             .Union(modeMatches)
-            .ToList();
+            .ToListAsync();
     }
 
-    public ICollection<Game> GetByAddedDate(SortOrder sortOrder)
+    public async Task<ICollection<Game>> GetByAddedDateAsync(SortOrder sortOrder)
     {
         if (sortOrder.ToString() != "asc" && sortOrder.ToString() != "desc")
         {
@@ -72,15 +72,15 @@ public class GameRepository : IGameRepository
 
         if (sortOrder.ToString() == "desc")
         {
-            return _context.Games.OrderByDescending(g => g.CreatedAt).ToList();
+            return await _context.Games.OrderByDescending(g => g.CreatedAt).ToListAsync();
         }
         else
         {
-            return _context.Games.OrderBy(g => g.CreatedAt).ToList();
+            return await _context.Games.OrderBy(g => g.CreatedAt).ToListAsync();
         }
     }
 
-    public ICollection<Game> GetByReleaseDate(SortOrder sortOrder)
+    public async Task<ICollection<Game>> GetByReleaseDateAsync(SortOrder sortOrder)
     {
         if (sortOrder.ToString() != "asc" && sortOrder.ToString() != "desc")
         {
@@ -89,7 +89,7 @@ public class GameRepository : IGameRepository
 
         if (sortOrder.ToString() == "desc")
         {
-            return _context.Games
+            return await _context.Games
                .Select(g => new
                {
                    Game = g,
@@ -97,11 +97,11 @@ public class GameRepository : IGameRepository
                })
                .OrderByDescending(g => g.FirstRelease)
                .Select(g => g.Game)
-               .ToList();
+               .ToListAsync();
         }
         else
         {
-            return _context.Games
+            return await _context.Games
                .Select(g => new
                {
                    Game = g,
@@ -109,53 +109,53 @@ public class GameRepository : IGameRepository
                })
                .OrderBy(g => g.FirstRelease)
                .Select(g => g.Game)
-               .ToList();
+               .ToListAsync();
         }
     }
 
-    public ICollection<Game> GetByModes(ICollection<string> modes)
+    public async Task<ICollection<Game>> GetByModesAsync(ICollection<string> modes)
     {
-        return _context.Games.Where(g => g.Modes.Any(mode => modes.Contains(mode))).ToList();
+        return await _context.Games.Where(g => g.Modes.Any(mode => modes.Contains(mode))).ToListAsync();
     }
 
-    public ICollection<Game> GetByTitle(string title)
+    public async Task<ICollection<Game>> GetByTitleAsync(string title)
     {
-        return _context.Games.Where(g => g.Title.Contains(title)).ToList();
+        return await _context.Games.Where(g => g.Title.Contains(title)).ToListAsync();
     }
 
-    public bool Create(Game game)
+    public async Task<bool> CreateAsync(Game game)
     {
-        _context.Games.Add(game);
-        return Save();
+        await _context.Games.AddAsync(game);
+        return await SaveAsync();
     }
 
-    public bool Update(int id, Game game)
+    public async Task<bool> UpdateAsync(int id, Game game)
     {
-        var oldGame = Get(id);
+        var oldGame = await GetAsync(id);
         if (oldGame == null)
         {
             return false;
         }
 
         CopyProperties(game, oldGame);
-        return Save();
+        return await SaveAsync();
     }
 
-    public bool Delete(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var oldGame = Get(id);
+        var oldGame = await GetAsync(id);
         if (oldGame == null)
         {
             return false;
         }
 
         _context.Remove(oldGame);
-        return Save();
+        return await SaveAsync();
     }
 
-    public bool Save()
+    public async Task<bool> SaveAsync()
     {
-        var entriesWritten = _context.SaveChanges();
+        var entriesWritten = await _context.SaveChangesAsync();
         return entriesWritten > 0;
     }
 

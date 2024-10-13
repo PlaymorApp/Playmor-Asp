@@ -7,17 +7,17 @@ namespace Playmor_Asp.Application.Interfaces;
 
 public interface IGameRepository
 {
-    Game? Get(int id);
-    ICollection<Game> GetAll();
-    ICollection<Game> GetPaginated(int pageNumber, int pageSize);
-    ICollection<Game> GetByTitle(string title);
-    ICollection<Game> GetByKeyword(string keyword);
-    ICollection<Game> GetByAddedDate(SortOrder sortOrder);
-    ICollection<Game> GetByReleaseDate(SortOrder sortOrder);
-    ICollection<Game> GetByModes(ICollection<string> modes);
-    ICollection<Game> GetByGenres(ICollection<string> genres);
-    public bool Create(Game user);
-    public bool Update(int id, Game car);
-    public bool Delete(int id);
-    public bool Save();
+    Task<Game?> GetAsync(int id);
+    Task<ICollection<Game>> GetAllAsync();
+    Task<ICollection<Game>> GetPaginatedAsync(int pageNumber, int pageSize);
+    Task<ICollection<Game>> GetByTitleAsync(string title);
+    Task<ICollection<Game>> GetByKeywordAsync(string keyword);
+    Task<ICollection<Game>> GetByAddedDateAsync(SortOrder sortOrder);
+    Task<ICollection<Game>> GetByReleaseDateAsync(SortOrder sortOrder);
+    Task<ICollection<Game>> GetByModesAsync(ICollection<string> modes);
+    Task<ICollection<Game>> GetByGenresAsync(ICollection<string> genres);
+    public Task<bool> CreateAsync(Game user);
+    public Task<bool> UpdateAsync(int id, Game car);
+    public Task<bool> DeleteAsync(int id);
+    public Task<bool> SaveAsync();
 }

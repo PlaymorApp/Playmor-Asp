@@ -4,16 +4,16 @@ namespace Playmor_Asp.Application.Interfaces;
 
 public interface IGameService
 {
-    Game? GetGame(int id);
-    bool CreateGame(Game game);
-    bool UpdateGame(int id, Game game);
-    bool DeleteGame(int id);
-    ICollection<Game> GetGames();
-    ICollection<Game> GetPaginatedGames(int pageNumber, int pageSize);
-    ICollection<Game> GetGamesByAddedDate(string order);
-    ICollection<Game> GetGamesByReleaseDate(string order);
-    ICollection<Game> GetGamesByTitle(string title);
-    ICollection<Game> GetGamesByKeyword(string keyword);
-    ICollection<Game> GetGamesByModes(ICollection<string> modes);
-    ICollection<Game> GetGamesByGenres(ICollection<string> genres);
+    Task<Game?> GetGameAsync(int id);
+    Task<bool> CreateGameAsync(Game game);
+    Task<bool> UpdateGameAsync(int id, Game game);
+    Task<bool> DeleteGameAsync(int id);
+    Task<ICollection<Game>> GetGamesAsync();
+    Task<ICollection<Game>> GetPaginatedGamesAsync(int pageNumber, int pageSize);
+    Task<ICollection<Game>> GetGamesByAddedDateAsync(string order);
+    Task<ICollection<Game>> GetGamesByReleaseDateAsync(string order);
+    Task<ICollection<Game>> GetGamesByTitleAsync(string title);
+    Task<ICollection<Game>> GetGamesByKeywordAsync(string keyword);
+    Task<ICollection<Game>> GetGamesByModesAsync(ICollection<string> modes);
+    Task<ICollection<Game>> GetGamesByGenresAsync(ICollection<string> genres);
 }
