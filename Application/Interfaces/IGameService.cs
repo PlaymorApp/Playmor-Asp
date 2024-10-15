@@ -1,19 +1,21 @@
-﻿using Playmor_Asp.Domain.Models;
+﻿using Playmor_Asp.Application.Common;
+using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Application.Interfaces;
 
 public interface IGameService
 {
-    Task<Game?> GetGameAsync(int id);
-    Task<bool> CreateGameAsync(Game game);
-    Task<bool> UpdateGameAsync(int id, Game game);
-    Task<bool> DeleteGameAsync(int id);
-    Task<ICollection<Game>> GetGamesAsync();
-    Task<ICollection<Game>> GetPaginatedGamesAsync(int pageNumber, int pageSize);
-    Task<ICollection<Game>> GetGamesByAddedDateAsync(string order);
-    Task<ICollection<Game>> GetGamesByReleaseDateAsync(string order);
-    Task<ICollection<Game>> GetGamesByTitleAsync(string title);
-    Task<ICollection<Game>> GetGamesByKeywordAsync(string keyword);
-    Task<ICollection<Game>> GetGamesByModesAsync(ICollection<string> modes);
-    Task<ICollection<Game>> GetGamesByGenresAsync(ICollection<string> genres);
+    Task<ServiceResult<Game?, IError>> GetGameAsync(int id);
+    Task<ServiceResult<bool, IError>> CreateGameAsync(Game game);
+    Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, Game game);
+    Task<ServiceResult<bool, IError>> DeleteGameAsync(int id);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesAsync();
+    Task<ServiceResult<ICollection<Game>, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesByAddedDateAsync(string order);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesByReleaseDateAsync(string order);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesByTitleAsync(string title);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesByKeywordAsync(string keyword);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesByModesAsync(ICollection<string> modes);
+    Task<ServiceResult<ICollection<Game>, IError>> GetGamesByGenresAsync(ICollection<string> genres);
 }

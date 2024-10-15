@@ -65,11 +65,6 @@ public class GameRepository : IGameRepository
 
     public async Task<ICollection<Game>> GetByAddedDateAsync(SortOrder sortOrder)
     {
-        if (sortOrder.ToString() != "asc" && sortOrder.ToString() != "desc")
-        {
-            throw new ArgumentException("Invalid sort order. Use 'asc' or 'desc'.");
-        }
-
         if (sortOrder.ToString() == "desc")
         {
             return await _context.Games.OrderByDescending(g => g.CreatedAt).ToListAsync();
@@ -82,11 +77,6 @@ public class GameRepository : IGameRepository
 
     public async Task<ICollection<Game>> GetByReleaseDateAsync(SortOrder sortOrder)
     {
-        if (sortOrder.ToString() != "asc" && sortOrder.ToString() != "desc")
-        {
-            throw new ArgumentException("Invalid sort order. Use 'asc' or 'desc'.");
-        }
-
         if (sortOrder.ToString() == "desc")
         {
             return await _context.Games

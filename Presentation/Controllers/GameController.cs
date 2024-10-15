@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Playmor_Asp.Application.Common.Errors;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
 
@@ -19,9 +20,14 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesAsync()
     {
-        var games = await _gameService.GetGamesAsync();
+        var serviceResult = await _gameService.GetGamesAsync();
 
-        return Ok(games);
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/paginated")]
@@ -30,9 +36,19 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetPaginatedGamesAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
-        var games = await _gameService.GetPaginatedGamesAsync(pageNumber, pageSize);
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+        var serviceResult = await _gameService.GetPaginatedGamesAsync(pageNumber, pageSize);
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/added")]
@@ -41,10 +57,16 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesByAddedDateAsync([FromQuery] string sort)
     {
-        var games = await _gameService.GetGamesByAddedDateAsync(sort);
+        var serviceResult = await _gameService.GetGamesByAddedDateAsync(sort);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/released")]
@@ -53,10 +75,16 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesByReleaseDateAsync([FromQuery] string sort)
     {
-        var games = await _gameService.GetGamesByReleaseDateAsync(sort);
+        var serviceResult = await _gameService.GetGamesByReleaseDateAsync(sort);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/{gameId}")]
@@ -66,13 +94,24 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGameAsync(int gameId)
     {
-        var game = await _gameService.GetGameAsync(gameId);
-        if (game == null)
-        {
-            return NotFound();
-        }
+        var serviceResult = await _gameService.GetGameAsync(gameId);
+
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(game);
+
+        if (!serviceResult.IsValid)
+        {
+            if (serviceResult.Errors.Any(e => e is NotFoundError))
+            {
+                return NotFound();
+            }
+        }
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/title/{title}")]
@@ -81,10 +120,16 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesByTitleAsync(string title)
     {
-        var games = await _gameService.GetGamesByTitleAsync(title);
+        var serviceResult = await _gameService.GetGamesByTitleAsync(title);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/genres")]
@@ -93,10 +138,16 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesByGenresAsync([FromQuery] ICollection<string> genres)
     {
-        var games = await _gameService.GetGamesByGenresAsync(genres);
+        var serviceResult = await _gameService.GetGamesByGenresAsync(genres);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/modes")]
@@ -105,10 +156,16 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesByModesAsync([FromQuery] ICollection<string> modes)
     {
-        var games = await _gameService.GetGamesByModesAsync(modes);
+        var serviceResult = await _gameService.GetGamesByModesAsync(modes);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 
     [HttpGet("games/keyword/{keyword}")]
@@ -117,9 +174,15 @@ public class GameController : Controller
     [ProducesResponseType(500)]
     public async Task<IActionResult> GetGamesByKeywordAsync(string keyword)
     {
-        var games = await _gameService.GetGamesByKeywordAsync(keyword);
+        var serviceResult = await _gameService.GetGamesByKeywordAsync(keyword);
 
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(games);
+
+        if (serviceResult.IsValid)
+        {
+            return Ok(serviceResult.Data);
+        }
+
+        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
     }
 }

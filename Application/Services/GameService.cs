@@ -1,4 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Playmor_Asp.Application.Common;
+using Playmor_Asp.Application.Common.Errors;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
 
@@ -13,116 +15,248 @@ public class GameService : IGameService
         _gameRepository = gameRepository;
     }
 
-    public async Task<bool> CreateGameAsync(Game game)
+    public async Task<ServiceResult<bool, IError>> CreateGameAsync(Game game)
     {
-        return await _gameRepository.CreateAsync(game);
-    }
-
-    public async Task<bool> DeleteGameAsync(int id)
-    {
-        if (id < 1)
+        if (game == null)
         {
-            throw new ArgumentException("Invalid argument passed. Id can't be lower than 1");
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new ValidationError("game", "Empty game passed")]
+            };
+
         }
 
-        return await _gameRepository.DeleteAsync(id);
+        var created = await _gameRepository.CreateAsync(game);
+
+        return new ServiceResult<bool, IError>
+        {
+            Data = created
+        };
     }
 
-    public async Task<Game?> GetGameAsync(int id)
+    public async Task<ServiceResult<bool, IError>> DeleteGameAsync(int id)
     {
         if (id < 1)
         {
-            throw new ArgumentException("Invalid argument passed. Id can't be lower than 1");
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new ValidationError("id", "Incorrect id passed")]
+            };
         }
 
-        return await _gameRepository.GetAsync(id);
+
+        return new ServiceResult<bool, IError>
+        {
+            Data = await _gameRepository.DeleteAsync(id)
+        };
     }
 
-    public async Task<bool> UpdateGameAsync(int id, Game game)
+    public async Task<ServiceResult<Game?, IError>> GetGameAsync(int id)
     {
         if (id < 1)
         {
-            throw new ArgumentException("Invalid argument passed. Id can't be lower than 1");
+            return new ServiceResult<Game?, IError>
+            {
+                Data = null,
+                Errors = [new ValidationError("id", "Incorrect id passed")]
+            };
+        }
+
+        var game = await _gameRepository.GetAsync(id);
+        if (game == null)
+        {
+            return new ServiceResult<Game?, IError>
+            {
+                Data = null,
+                Errors = [new NotFoundError($"Game with id: {id} not found")]
+            };
+        }
+
+        return new ServiceResult<Game?, IError>
+        {
+            Data = game
+        };
+    }
+
+    public async Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, Game game)
+    {
+        if (id < 1)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new ValidationError("id", "Incorrect id passed")]
+            };
         }
 
         if (await _gameRepository.GetAsync(id) == null)
         {
-            throw new InvalidOperationException("Invalid argument passed. No game found under such id.");
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new NotFoundError("No game found with passed id.")]
+            };
         }
 
-        return await _gameRepository.UpdateAsync(id, game);
+        return new ServiceResult<bool, IError>
+        {
+            Data = await _gameRepository.UpdateAsync(id, game),
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesAsync()
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesAsync()
     {
-        return await _gameRepository.GetAllAsync();
+        var games = await _gameRepository.GetAllAsync();
+
+        if (games.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new NotFoundError("Games couldn't be found")]
+            };
+        }
+
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = games
+        };
     }
 
-    public async Task<ICollection<Game>> GetPaginatedGamesAsync(int pageNumber, int pageSize)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize)
     {
         if (pageNumber < 1 || pageSize < 1)
         {
-            throw new ArgumentException("Invalid argument passed. PageNumber and PageSize should be >= 1");
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("pageNumber | pageSize", "Value lower than 1 passed.")]
+            };
         }
 
-        return await _gameRepository.GetPaginatedAsync(pageNumber, pageSize);
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize)
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesByAddedDateAsync(string order)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesByAddedDateAsync(string order)
     {
         if (order != "desc" && order != "asc")
         {
-            throw new ArgumentException("Invalid argument passed. Order has to be 'asc' or 'desc'");
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("order", "Order can only be 'asc' or 'desc'.")]
+            };
         }
 
-        if (order == "desc") return await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.desc);
-        return await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.asc);
+        if (order == "desc")
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.desc),
+            };
+        }
+
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.asc),
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesByReleaseDateAsync(string order)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesByReleaseDateAsync(string order)
     {
         if (order != "desc" && order != "asc")
         {
-            throw new ArgumentException("Invalid argument passed. Order has to be 'asc' or 'desc'");
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("order", "Order can only be 'asc' or 'desc'.")]
+            };
         }
 
-        if (order == "desc") return await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.desc);
-        return await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.asc);
+        if (order == "desc")
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.desc),
+            };
+        }
+
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.asc),
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesByGenresAsync(ICollection<string> genres)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesByGenresAsync(ICollection<string> genres)
     {
         if (genres.IsNullOrEmpty())
         {
-            throw new ArgumentException("Invalid argument passed. Genres can't be null or empty");
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("genres", "Genres can't be null or empty.")]
+            };
         }
 
-        return await _gameRepository.GetByGenresAsync(genres);
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetByGenresAsync(genres),
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesByKeywordAsync(string keyword)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesByKeywordAsync(string keyword)
     {
         if (keyword.IsNullOrEmpty())
         {
-            throw new ArgumentException("Invalid argument passed. Keyword can't be null or empty");
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("genres", "Genres can't be null or empty.")]
+            };
         }
 
-        return await _gameRepository.GetByKeywordAsync(keyword);
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetByKeywordAsync(keyword),
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesByModesAsync(ICollection<string> modes)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesByModesAsync(ICollection<string> modes)
     {
         if (modes.IsNullOrEmpty())
         {
-            throw new ArgumentException("Invalid argument passed. Modes can't be null or empty");
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("modes", "Modes can't be null or empty.")]
+            };
         }
 
-        return await _gameRepository.GetByModesAsync(modes);
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetByModesAsync(modes),
+        };
     }
 
-    public async Task<ICollection<Game>> GetGamesByTitleAsync(string title)
+    public async Task<ServiceResult<ICollection<Game>, IError>> GetGamesByTitleAsync(string title)
     {
+        if (!string.IsNullOrEmpty(title))
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError("title", "Title can't be null or empty.")]
+            };
+        }
 
-        return await _gameRepository.GetByTitleAsync(title);
+        return new ServiceResult<ICollection<Game>, IError>
+        {
+            Data = await _gameRepository.GetByTitleAsync(title),
+        };
     }
 }
