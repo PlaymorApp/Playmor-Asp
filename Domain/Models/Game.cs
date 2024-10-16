@@ -7,6 +7,7 @@ namespace Playmor_Asp.Domain.Models;
 
 public class Game
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
