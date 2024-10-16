@@ -1,30 +1,19 @@
 ﻿using Playmor_Asp.Domain.Models;
-using System.ComponentModel.DataAnnotations;
 
-namespace Playmor_Asp.Application.DTOs
+namespace Playmor_Asp.Application.DTOs;
+
+public class GameDTO
 {
-    public class GameDTO
-    {
-        public int Id { get; set; }
-        [Required]
-        public required string Title { get; set; }
-        [Required]
-        public required string Description { get; set; }
-        [Required]
-        public required List<string> Developer { get; set; }
-        [Required]
-        public required List<string> Publisher { get; set; }
-        [Required]
-        public required List<string> Platforms { get; set; }
-        [Required]
-        public required List<string> Genres { get; set; }
-        [Required]
-        public required List<string> Modes { get; set; }
-        [Required]
-        public required string Cover { get; set; }
-        [Required]
-        public required string Artwork { get; set; }
-        [Required]
-        public required List<ReleaseDate> ReleaseDates { get; set; }
-    }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string Details { get; set; }
+    public List<string> Developer { get; set; }
+    public List<string> Publisher { get; set; }
+    public List<string> Platforms { get; set; }
+    public List<string> Genres { get; set; }
+    public List<string> Modes { get; set; }
+    public string Cover { get; set; }
+    public string Artwork { get; set; }
+    public List<ReleaseDate> ReleaseDates { get; set; }
+    public List<Website> WebsiteLinks { get; set; }
 }
