@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
@@ -119,7 +120,7 @@ public class GameRepository : IGameRepository
         return await SaveAsync();
     }
 
-    public async Task<bool> UpdateAsync(int id, Game game)
+    public async Task<bool> UpdateAsync(int id, GameDTO game)
     {
         var oldGame = await GetAsync(id);
         if (oldGame == null)
@@ -149,9 +150,9 @@ public class GameRepository : IGameRepository
         return entriesWritten > 0;
     }
 
-    public void CopyProperties(Game gameSource, Game gameDestination)
+    public void CopyProperties(GameDTO gameSource, Game gameDestination)
     {
-        var properties = typeof(Game).GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+        var properties = typeof(GameDTO).GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
         foreach (var property in properties)
         {
             var value = property.GetValue(gameSource, null);

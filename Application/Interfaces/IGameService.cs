@@ -1,5 +1,6 @@
 ﻿using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Application.Interfaces;
@@ -7,8 +8,8 @@ namespace Playmor_Asp.Application.Interfaces;
 public interface IGameService
 {
     Task<ServiceResult<Game?, IError>> GetGameAsync(int id);
-    Task<ServiceResult<bool, IError>> CreateGameAsync(Game game);
-    Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, Game game);
+    Task<ServiceResult<bool, IError>> CreateGameAsync(GameDTO game);
+    Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, GameDTO game);
     Task<ServiceResult<bool, IError>> DeleteGameAsync(int id);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesAsync();
     Task<ServiceResult<ICollection<Game>, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize);

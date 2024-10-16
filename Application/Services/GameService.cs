@@ -1,7 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
+using Playmor_Asp.Application.Validators;
 using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Application.Services;
@@ -9,13 +12,17 @@ namespace Playmor_Asp.Application.Services;
 public class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
+    private readonly IMapper _mapper;
+    private readonly GameValidator _gameValidator;
 
-    public GameService(IGameRepository gameRepository)
+    public GameService(IGameRepository gameRepository, IMapper mapper)
     {
         _gameRepository = gameRepository;
+        _mapper = mapper;
+        _gameValidator = new GameValidator();
     }
 
-    public async Task<ServiceResult<bool, IError>> CreateGameAsync(Game game)
+    public async Task<ServiceResult<bool, IError>> CreateGameAsync(GameDTO game)
     {
         if (game == null)
         {
@@ -27,11 +34,29 @@ public class GameService : IGameService
 
         }
 
-        var created = await _gameRepository.CreateAsync(game);
+        var mappedGame = _mapper.Map<Game>(game);
+        if (!_gameValidator.Validate(mappedGame).IsValid)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new ValidationError("game", "Invalid game object passed")]
+            };
+        }
+
+        var created = await _gameRepository.CreateAsync(mappedGame);
+        if (created)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = created
+            };
+        }
 
         return new ServiceResult<bool, IError>
         {
-            Data = created
+            Data = false,
+            Errors = [new UnexpectedError($"Server error occured when attempting to create game: {game}")]
         };
     }
 
@@ -42,14 +67,32 @@ public class GameService : IGameService
             return new ServiceResult<bool, IError>
             {
                 Data = false,
-                Errors = [new ValidationError("id", "Incorrect id passed")]
+                Errors = [new ValidationError("id", $"Incorrect id passed: {id}")]
             };
         }
 
+        if ((await _gameRepository.GetAsync(id)) == null)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new NotFoundError("No game found with passed id.")]
+            };
+        }
+
+        var status = await _gameRepository.DeleteAsync(id);
+        if (status)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = status
+            };
+        }
 
         return new ServiceResult<bool, IError>
         {
-            Data = await _gameRepository.DeleteAsync(id)
+            Data = false,
+            Errors = [new UnexpectedError($"Server error occured when attempting to delete game with id: {id}")]
         };
     }
 
@@ -80,7 +123,7 @@ public class GameService : IGameService
         };
     }
 
-    public async Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, Game game)
+    public async Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, GameDTO game)
     {
         if (id < 1)
         {
@@ -91,7 +134,7 @@ public class GameService : IGameService
             };
         }
 
-        if (await _gameRepository.GetAsync(id) == null)
+        if ((await _gameRepository.GetAsync(id)) == null)
         {
             return new ServiceResult<bool, IError>
             {
@@ -100,9 +143,29 @@ public class GameService : IGameService
             };
         }
 
+        var mappedGame = _mapper.Map<Game>(game);
+        if (!_gameValidator.Validate(mappedGame).IsValid)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new ValidationError("game", "Invalid game object passed")]
+            };
+        }
+
+        var status = await _gameRepository.UpdateAsync(id, game);
+        if (status)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = status
+            };
+        }
+
         return new ServiceResult<bool, IError>
         {
-            Data = await _gameRepository.UpdateAsync(id, game),
+            Data = false,
+            Errors = [new UnexpectedError($"Server error occured when attempting to update game with id: {id}")]
         };
     }
 
@@ -136,9 +199,19 @@ public class GameService : IGameService
             };
         }
 
+        var games = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize);
+        if (games.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return paginated games")]
+            };
+        }
+
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize)
+            Data = games
         };
     }
 
@@ -153,17 +226,30 @@ public class GameService : IGameService
             };
         }
 
+        ICollection<Game> games;
+
         if (order == "desc")
+        {
+            games = await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.desc);
+
+        }
+        else
+        {
+            games = await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.asc);
+        }
+
+        if (games.IsNullOrEmpty())
         {
             return new ServiceResult<ICollection<Game>, IError>
             {
-                Data = await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.desc),
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return games by added date")]
             };
         }
 
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetByAddedDateAsync(Domain.Enums.SortOrder.asc),
+            Data = games,
         };
     }
 
@@ -178,17 +264,30 @@ public class GameService : IGameService
             };
         }
 
+        ICollection<Game> games;
+
         if (order == "desc")
+        {
+            games = await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.desc);
+
+        }
+        else
+        {
+            games = await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.asc);
+        }
+
+        if (games.IsNullOrEmpty())
         {
             return new ServiceResult<ICollection<Game>, IError>
             {
-                Data = await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.desc),
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return games by release date")]
             };
         }
 
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetByReleaseDateAsync(Domain.Enums.SortOrder.asc),
+            Data = games,
         };
     }
 
@@ -203,9 +302,19 @@ public class GameService : IGameService
             };
         }
 
+        var games = await _gameRepository.GetByGenresAsync(genres);
+        if (games.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return games by genres")]
+            };
+        }
+
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetByGenresAsync(genres),
+            Data = games
         };
     }
 
@@ -220,9 +329,19 @@ public class GameService : IGameService
             };
         }
 
+        var games = await _gameRepository.GetByKeywordAsync(keyword);
+        if (games.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return games by keyword")]
+            };
+        }
+
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetByKeywordAsync(keyword),
+            Data = games
         };
     }
 
@@ -237,9 +356,19 @@ public class GameService : IGameService
             };
         }
 
+        var games = await _gameRepository.GetByModesAsync(modes);
+        if (games.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return games by modes")]
+            };
+        }
+
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetByModesAsync(modes),
+            Data = games
         };
     }
 
@@ -254,9 +383,19 @@ public class GameService : IGameService
             };
         }
 
+        var games = await _gameRepository.GetByTitleAsync(title);
+        if (games.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<Game>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return games by title")]
+            };
+        }
+
         return new ServiceResult<ICollection<Game>, IError>
         {
-            Data = await _gameRepository.GetByTitleAsync(title),
+            Data = games
         };
     }
 }

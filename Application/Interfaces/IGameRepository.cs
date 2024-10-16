@@ -1,9 +1,8 @@
-﻿using Playmor_Asp.Domain.Enums;
+﻿using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Application.Interfaces;
-
-
 
 public interface IGameRepository
 {
@@ -16,8 +15,8 @@ public interface IGameRepository
     Task<ICollection<Game>> GetByReleaseDateAsync(SortOrder sortOrder);
     Task<ICollection<Game>> GetByModesAsync(ICollection<string> modes);
     Task<ICollection<Game>> GetByGenresAsync(ICollection<string> genres);
-    public Task<bool> CreateAsync(Game user);
-    public Task<bool> UpdateAsync(int id, Game car);
+    public Task<bool> CreateAsync(Game game);
+    public Task<bool> UpdateAsync(int id, GameDTO game);
     public Task<bool> DeleteAsync(int id);
     public Task<bool> SaveAsync();
 }
