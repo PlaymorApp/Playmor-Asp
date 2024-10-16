@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
 
@@ -184,5 +186,91 @@ public class GameController : Controller
         }
 
         return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Errors);
+    }
+
+    [HttpPost("games")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> CreateGame([FromBody] GameDTO game)
+    {
+        var serviceResult = await _gameService.CreateGameAsync(game);
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        if (!serviceResult.IsValid)
+        {
+            if (serviceResult.Errors.Any(e => e is NotFoundError))
+            {
+                return NotFound();
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok();
+    }
+
+    [HttpPut("games/{gameId}")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Update([FromRoute] int gameId, [FromBody] GameDTO game)
+    {
+        var serviceResult = await _gameService.UpdateGameAsync(gameId, game);
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        if (!serviceResult.IsValid)
+        {
+            if (serviceResult.Errors.Any(e => e is NotFoundError))
+            {
+                return NotFound();
+            }
+
+            if (serviceResult.Errors.Any(e => e is ValidationError))
+            {
+                return BadRequest();
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError, "Unexpected server error");
+        }
+
+        return Ok();
+    }
+
+    [HttpDelete("games/{gameId}")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteGame([FromRoute] int gameId)
+    {
+        var serviceResult = await _gameService.DeleteGameAsync(gameId);
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        if (!serviceResult.IsValid)
+        {
+            if (serviceResult.Errors.Any(e => e is NotFoundError))
+            {
+                return NotFound();
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok();
     }
 }
