@@ -153,7 +153,7 @@ public class GameService : IGameService
             };
         }
 
-        var status = await _gameRepository.UpdateAsync(id, game);
+        var status = await _gameRepository.UpdateAsync(id, mappedGame);
         if (status)
         {
             return new ServiceResult<bool, IError>
