@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.Common.Filters;
 using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
@@ -190,7 +191,7 @@ public class GameService : IGameService
         };
     }
 
-    public async Task<ServiceResult<GamePagination, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize, SortByOrder? sortBy, DateTime? fromDate, DateTime? toDate)
+    public async Task<ServiceResult<GamePagination, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize, SortByOrder? sortBy, GameFilter? gameFilter)
     {
         if (pageNumber < 1 || pageSize < 1)
         {
@@ -214,7 +215,7 @@ public class GameService : IGameService
             };
         }
 
-        var gamePagination = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize, sortBy, fromDate, toDate);
+        var gamePagination = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize, sortBy, gameFilter);
 
         return new ServiceResult<GamePagination, IError>
         {

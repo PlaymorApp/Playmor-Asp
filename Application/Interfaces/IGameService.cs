@@ -1,5 +1,6 @@
 ﻿using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.Common.Filters;
 using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Domain.Enums;
@@ -14,7 +15,7 @@ public interface IGameService
     Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, GameDTO game);
     Task<ServiceResult<bool, IError>> DeleteGameAsync(int id);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesAsync();
-    Task<ServiceResult<GamePagination, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize, SortByOrder? sortBy, DateTime? fromDate, DateTime? toDate);
+    Task<ServiceResult<GamePagination, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize, SortByOrder? sortBy, GameFilter? gameFilter);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesByAddedDateAsync(string order);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesByReleaseDateAsync(string order);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesByTitleAsync(string title);
