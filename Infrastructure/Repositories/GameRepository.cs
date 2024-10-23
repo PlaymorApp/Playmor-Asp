@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Playmor_Asp.Application.Common.Filters;
 using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Enums;
@@ -27,15 +29,15 @@ public class GameRepository : IGameRepository
         return games;
     }
 
-    public async Task<GamePagination> GetPaginatedAsync(int pageNumber, int pageSize, SortByOrder? sortBy, DateTime? fromDate, DateTime? toDate)
+    public async Task<GamePagination> GetPaginatedAsync(int pageNumber, int pageSize, SortByOrder? sortBy, GameFilter? gameFilter)
     {
         var query = _context.Games.AsQueryable();
 
-        // Filter by date range
-        query = ApplyDateRangeToQuery(query, fromDate, toDate);
+        // Filter by passed filters
+        query = ApplyFilter(query, gameFilter);
 
         // Sort if applicable
-        query = ApplySortingToQuery(query, sortBy);
+        query = ApplySorting(query, sortBy);
 
         var totalRecords = await query.CountAsync();
 
@@ -158,18 +160,17 @@ public class GameRepository : IGameRepository
         }
     }
 
-    public IQueryable<Game> ApplyDateRangeToQuery(IQueryable<Game> query, DateTime? fromDate, DateTime? toDate)
+    public IQueryable<Game> ApplyDateRange(IQueryable<Game> query, DateTime? fromDate, DateTime? toDate)
     {
         // Filters according to range [fromDate >= x <= toDate] on earliest release date
         if (fromDate.HasValue && toDate.HasValue)
         {
             query = query.Where(g => g.ReleaseDates.Min(rD => rD.Date) >= fromDate && g.ReleaseDates.Min(rD => rD.Date) <= toDate);
         }
-
         return query;
     }
 
-    public IQueryable<Game> ApplySortingToQuery(IQueryable<Game> query, SortByOrder? sortBy)
+    public IQueryable<Game> ApplySorting(IQueryable<Game> query, SortByOrder? sortBy)
     {
         return sortBy switch
         {
@@ -179,5 +180,96 @@ public class GameRepository : IGameRepository
             SortByOrder.releasedDescending => query.OrderByDescending(g => g.ReleaseDates.Min(rD => rD.Date)),
             _ => query.OrderBy(g => g.Id) // Default sorting by Id
         };
+    }
+
+    public IQueryable<Game> ApplyKeyword(IQueryable<Game> query, string? keyword)
+    {
+        if (!string.IsNullOrEmpty(keyword))
+        {
+            query = query.Where(g =>
+                g.Title.Contains(keyword) ||
+                g.Description.Contains(keyword) ||
+                g.Developer.Any(dev => dev.Contains(keyword)) ||
+                g.Publisher.Any(pub => pub.Contains(keyword)) ||
+                g.Genres.Any(genre => genre.Contains(keyword)) ||
+                g.Modes.Any(mode => mode.Contains(keyword))
+            );
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplyGenres(IQueryable<Game> query, ICollection<string>? genres)
+    {
+        if (!genres.IsNullOrEmpty())
+        {
+            var lowerGenres = genres.Select(g => g.ToLower()).ToList();
+            query = query.Where(g => g.Genres.Any(genre => lowerGenres.Contains(genre.ToLower())));
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplyModes(IQueryable<Game> query, ICollection<string>? modes)
+    {
+        if (!modes.IsNullOrEmpty())
+        {
+            var lowerModes = modes.Select(g => g.ToLower()).ToList();
+            query = query.Where(g => g.Modes.Any(mode => lowerModes.Contains(mode.ToLower())));
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplyDevelopers(IQueryable<Game> query, ICollection<string>? developers)
+    {
+        if (!developers.IsNullOrEmpty())
+        {
+            var lowerDevelopers = developers.Select(g => g.ToLower()).ToList();
+            query = query.Where(g => g.Developer.Any(dev => lowerDevelopers.Contains(dev.ToLower())));
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplyPublishers(IQueryable<Game> query, ICollection<string>? publishers)
+    {
+        if (!publishers.IsNullOrEmpty())
+        {
+            var lowerPublishers = publishers.Select(g => g.ToLower()).ToList();
+            query = query.Where(g => g.Publisher.Any(pub => lowerPublishers.Contains(pub.ToLower())));
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplyPlatforms(IQueryable<Game> query, ICollection<string>? platforms)
+    {
+        if (!platforms.IsNullOrEmpty())
+        {
+            var lowerPlatforms = platforms.Select(g => g.ToLower()).ToList();
+            query = query.Where(g => g.Platforms.Any(platform => lowerPlatforms.Contains(platform.ToLower())));
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplyFilter(IQueryable<Game> query, GameFilter? gameFilter)
+    {
+        query = ApplyDateRange(query, gameFilter?.DateRange?.From, gameFilter?.DateRange?.To);
+
+        query = ApplyKeyword(query, gameFilter?.Keyword);
+
+        query = ApplyGenres(query, gameFilter?.Genres);
+
+        query = ApplyModes(query, gameFilter?.Modes);
+
+        query = ApplyDevelopers(query, gameFilter?.Developers);
+
+        query = ApplyPublishers(query, gameFilter?.Publishers);
+
+        query = ApplyPlatforms(query, gameFilter?.Platforms);
+
+        return query;
     }
 }
