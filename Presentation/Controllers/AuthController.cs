@@ -57,12 +57,11 @@ public class AuthController : Controller
     [HttpGet("auth/logout")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult Logout()
     {
         Response.Cookies.Delete("authToken");
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok();
+
+        return Ok(new { message = "Logout successful." });
     }
 }
