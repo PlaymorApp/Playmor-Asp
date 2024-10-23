@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
+using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Presentation.Controllers;
@@ -33,17 +35,17 @@ public class GameController : Controller
     }
 
     [HttpGet("games/paginated")]
-    [ProducesResponseType(200, Type = typeof(ICollection<Game>))]
+    [ProducesResponseType(200, Type = typeof(GamePagination))]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> GetPaginatedGamesAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    public async Task<IActionResult> GetPaginatedGamesAsync([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] SortByOrder? sortBy, [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
     {
-        var serviceResult = await _gameService.GetPaginatedGamesAsync(pageNumber, pageSize);
-
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+
+        var serviceResult = await _gameService.GetPaginatedGamesAsync(pageNumber, pageSize, sortBy, fromDate, toDate);
 
         if (serviceResult.IsValid)
         {

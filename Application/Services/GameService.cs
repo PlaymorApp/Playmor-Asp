@@ -2,9 +2,11 @@
 using Microsoft.IdentityModel.Tokens;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Application.Validators;
+using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Application.Services;
@@ -188,30 +190,35 @@ public class GameService : IGameService
         };
     }
 
-    public async Task<ServiceResult<ICollection<Game>, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize)
+    public async Task<ServiceResult<GamePagination, IError>> GetPaginatedGamesAsync(int pageNumber, int pageSize, SortByOrder? sortBy, DateTime? fromDate, DateTime? toDate)
     {
         if (pageNumber < 1 || pageSize < 1)
         {
-            return new ServiceResult<ICollection<Game>, IError>
+            return new ServiceResult<GamePagination, IError>
             {
-                Data = [],
+                Data = new GamePagination { Games = [], TotalRecords = 0, TotalPages = 0 },
                 Errors = [new ValidationError("pageNumber | pageSize", "Value lower than 1 passed.")]
             };
         }
 
-        var games = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize);
-        if (games.IsNullOrEmpty())
+
+        if (sortBy.HasValue && !Enum.IsDefined(typeof(SortByOrder), sortBy))
         {
-            return new ServiceResult<ICollection<Game>, IError>
+            return new ServiceResult<GamePagination, IError>
             {
-                Data = [],
-                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return paginated games")]
+                Data = new GamePagination { Games = [], TotalRecords = 0, TotalPages = 0 },
+                Errors =
+                [
+                    new ValidationError("sortBy", "Invalid sortBy value passed.")
+                ]
             };
         }
 
-        return new ServiceResult<ICollection<Game>, IError>
+        var gamePagination = await _gameRepository.GetPaginatedAsync(pageNumber, pageSize, sortBy, fromDate, toDate);
+
+        return new ServiceResult<GamePagination, IError>
         {
-            Data = games
+            Data = gamePagination
         };
     }
 

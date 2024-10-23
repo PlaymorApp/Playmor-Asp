@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
@@ -26,13 +27,23 @@ public class GameRepository : IGameRepository
         return games;
     }
 
-    public async Task<ICollection<Game>> GetPaginatedAsync(int pageNumber, int pageSize)
+    public async Task<GamePagination> GetPaginatedAsync(int pageNumber, int pageSize, SortByOrder? sortBy, DateTime? fromDate, DateTime? toDate)
     {
-        return await _context.Games
-            .OrderBy(game => game.Id)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+        var query = _context.Games.AsQueryable();
+
+        // Filter by date range
+        query = ApplyDateRangeToQuery(query, fromDate, toDate);
+
+        // Sort if applicable
+        query = ApplySortingToQuery(query, sortBy);
+
+        var totalRecords = await query.CountAsync();
+
+        var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+        var games = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+        return new GamePagination { Games = games, TotalRecords = totalRecords, TotalPages = totalPages };
     }
 
     public async Task<ICollection<Game>> GetByGenresAsync(ICollection<string> genres)
@@ -65,42 +76,29 @@ public class GameRepository : IGameRepository
 
     public async Task<ICollection<Game>> GetByAddedDateAsync(SortOrder sortOrder)
     {
-        if (sortOrder.ToString() == "desc")
-        {
-            return await _context.Games.OrderByDescending(g => g.CreatedAt).ToListAsync();
-        }
-        else
-        {
-            return await _context.Games.OrderBy(g => g.CreatedAt).ToListAsync();
-        }
+        var query = _context.Games.AsQueryable();
+
+        query = sortOrder == SortOrder.desc
+            ? query.OrderByDescending(g => g.CreatedAt)
+            : query.OrderBy(g => g.CreatedAt);
+
+        return await query.ToListAsync();
     }
 
     public async Task<ICollection<Game>> GetByReleaseDateAsync(SortOrder sortOrder)
     {
-        if (sortOrder.ToString() == "desc")
+        var query = _context.Games
+        .Select(g => new
         {
-            return await _context.Games
-               .Select(g => new
-               {
-                   Game = g,
-                   FirstRelease = g.ReleaseDates.Min(rD => rD.Date)
-               })
-               .OrderByDescending(g => g.FirstRelease)
-               .Select(g => g.Game)
-               .ToListAsync();
-        }
-        else
-        {
-            return await _context.Games
-               .Select(g => new
-               {
-                   Game = g,
-                   FirstRelease = g.ReleaseDates.Min(rD => rD.Date)
-               })
-               .OrderBy(g => g.FirstRelease)
-               .Select(g => g.Game)
-               .ToListAsync();
-        }
+            Game = g,
+            FirstRelease = g.ReleaseDates.Min(rD => rD.Date)
+        });
+
+        query = sortOrder == SortOrder.desc
+            ? query.OrderByDescending(g => g.FirstRelease)
+            : query.OrderBy(g => g.FirstRelease);
+
+        return await query.Select(g => g.Game).ToListAsync();
     }
 
     public async Task<ICollection<Game>> GetByModesAsync(ICollection<string> modes)
@@ -160,4 +158,26 @@ public class GameRepository : IGameRepository
         }
     }
 
+    public IQueryable<Game> ApplyDateRangeToQuery(IQueryable<Game> query, DateTime? fromDate, DateTime? toDate)
+    {
+        // Filters according to range [fromDate >= x <= toDate] on earliest release date
+        if (fromDate.HasValue && toDate.HasValue)
+        {
+            query = query.Where(g => g.ReleaseDates.Min(rD => rD.Date) >= fromDate && g.ReleaseDates.Min(rD => rD.Date) <= toDate);
+        }
+
+        return query;
+    }
+
+    public IQueryable<Game> ApplySortingToQuery(IQueryable<Game> query, SortByOrder? sortBy)
+    {
+        return sortBy switch
+        {
+            SortByOrder.addedAscending => query.OrderBy(g => g.CreatedAt),
+            SortByOrder.addedDescending => query.OrderByDescending(g => g.CreatedAt),
+            SortByOrder.releasedAscending => query.OrderBy(g => g.ReleaseDates.Min(rD => rD.Date)),
+            SortByOrder.releasedDescending => query.OrderByDescending(g => g.ReleaseDates.Min(rD => rD.Date)),
+            _ => query.OrderBy(g => g.Id) // Default sorting by Id
+        };
+    }
 }
