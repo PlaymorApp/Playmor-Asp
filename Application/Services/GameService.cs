@@ -406,4 +406,99 @@ public class GameService : IGameService
             Data = games
         };
     }
+
+    public async Task<ServiceResult<ICollection<string>, IError>> GetGameModesAsync()
+    {
+        var modes = await _gameRepository.GetModesAsync();
+
+        if (modes.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<string>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return modes")]
+            };
+        }
+
+        return new ServiceResult<ICollection<string>, IError>
+        {
+            Data = modes
+        };
+    }
+
+    public async Task<ServiceResult<ICollection<string>, IError>> GetGameGenresAsync()
+    {
+        var genres = await _gameRepository.GetGenresAsync();
+
+        if (genres.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<string>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return genres")]
+            };
+        }
+
+        return new ServiceResult<ICollection<string>, IError>
+        {
+            Data = genres
+        };
+    }
+
+    public async Task<ServiceResult<ICollection<string>, IError>> GetGamePlatformsAsync()
+    {
+        var platforms = await _gameRepository.GetPlatformsAsync();
+
+        if (platforms.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<string>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return platforms")]
+            };
+        }
+
+        return new ServiceResult<ICollection<string>, IError>
+        {
+            Data = platforms
+        };
+    }
+
+    public async Task<ServiceResult<ICollection<string>, IError>> GetGameDevelopersAsync()
+    {
+        var developers = await _gameRepository.GetDevelopersAsync();
+
+        if (developers.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<string>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return developers")]
+            };
+        }
+
+        return new ServiceResult<ICollection<string>, IError>
+        {
+            Data = developers
+        };
+    }
+
+    public async Task<ServiceResult<ICollection<string>, IError>> GetGamePublishersAsync()
+    {
+        var publishers = await _gameRepository.GetPublishersAsync();
+
+        if (publishers.IsNullOrEmpty())
+        {
+            return new ServiceResult<ICollection<string>, IError>
+            {
+                Data = [],
+                Errors = [new UnexpectedError("Unexpected server error occurred when attempting to return publishers")]
+            };
+        }
+
+        return new ServiceResult<ICollection<string>, IError>
+        {
+            Data = publishers
+        };
+    }
 }

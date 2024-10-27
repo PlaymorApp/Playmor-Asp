@@ -149,6 +149,76 @@ public class GameRepository : IGameRepository
         return entriesWritten > 0;
     }
 
+    public async Task<ICollection<string>> GetModesAsync()
+    {
+        var modes = await _context.Games
+        .Select(game => game.Modes)
+        .ToListAsync();
+
+        return modes
+            .SelectMany(mode => mode)
+            .Select(mode => mode.ToLower())
+            .Distinct()
+            .Select(mode => char.ToUpper(mode[0]) + mode.Substring(1))
+            .ToList();
+    }
+
+    public async Task<ICollection<string>> GetGenresAsync()
+    {
+        var genres = await _context.Games
+        .Select(game => game.Genres)
+        .ToListAsync();
+
+        return genres
+            .SelectMany(genre => genre)
+            .Select(genre => genre.ToLower())
+            .Distinct()
+            .Select(genre => char.ToUpper(genre[0]) + genre.Substring(1))
+            .ToList();
+    }
+
+    public async Task<ICollection<string>> GetPlatformsAsync()
+    {
+        var platforms = await _context.Games
+        .Select(game => game.Platforms)
+        .ToListAsync();
+
+        return platforms
+            .SelectMany(platform => platform)
+            .Select(platform => platform.ToLower())
+            .Distinct()
+            .Select(platform => char.ToUpper(platform[0]) + platform.Substring(1))
+            .ToList();
+    }
+
+    public async Task<ICollection<string>> GetDevelopersAsync()
+    {
+        var developers = await _context.Games
+        .Select(game => game.Developer)
+        .ToListAsync();
+
+        return developers
+            .SelectMany(developer => developer)
+            .Select(developer => developer.ToLower())
+            .Distinct()
+            .Select(developer => char.ToUpper(developer[0]) + developer.Substring(1))
+            .ToList();
+    }
+
+    public async Task<ICollection<string>> GetPublishersAsync()
+    {
+        var publishers = await _context.Games
+        .Select(game => game.Publisher)
+        .ToListAsync();
+
+        return publishers
+            .SelectMany(publisher => publisher)
+            .Select(publisher => publisher.ToLower())
+            .Distinct()
+            .Select(publisher => char.ToUpper(publisher[0]) + publisher.Substring(1))
+            .ToList();
+    }
+
     public void CopyProperties(Game gameSource, Game gameDestination)
     {
         var properties = typeof(Game).GetProperties().Where(prop => prop.CanRead && prop.CanWrite);

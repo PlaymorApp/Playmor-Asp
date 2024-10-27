@@ -22,4 +22,9 @@ public interface IGameService
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesByKeywordAsync(string keyword);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesByModesAsync(ICollection<string> modes);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesByGenresAsync(ICollection<string> genres);
+    Task<ServiceResult<ICollection<string>, IError>> GetGameModesAsync();
+    Task<ServiceResult<ICollection<string>, IError>> GetGameGenresAsync();
+    Task<ServiceResult<ICollection<string>, IError>> GetGamePlatformsAsync();
+    Task<ServiceResult<ICollection<string>, IError>> GetGameDevelopersAsync();
+    Task<ServiceResult<ICollection<string>, IError>> GetGamePublishersAsync();
 }

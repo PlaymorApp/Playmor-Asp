@@ -16,6 +16,11 @@ public interface IGameRepository
     Task<ICollection<Game>> GetByReleaseDateAsync(SortOrder sortOrder);
     Task<ICollection<Game>> GetByModesAsync(ICollection<string> modes);
     Task<ICollection<Game>> GetByGenresAsync(ICollection<string> genres);
+    Task<ICollection<string>> GetModesAsync();
+    Task<ICollection<string>> GetGenresAsync();
+    Task<ICollection<string>> GetPlatformsAsync();
+    Task<ICollection<string>> GetDevelopersAsync();
+    Task<ICollection<string>> GetPublishersAsync();
     public Task<bool> CreateAsync(Game game);
     public Task<bool> UpdateAsync(int id, Game game);
     public Task<bool> DeleteAsync(int id);

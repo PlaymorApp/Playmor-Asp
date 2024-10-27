@@ -276,4 +276,79 @@ public class GameController : Controller
 
         return Ok();
     }
+
+    [HttpGet("games/available/modes")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAvailableModes()
+    {
+        var serviceResult = await _gameService.GetGameModesAsync();
+
+        if (!serviceResult.IsValid)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok(serviceResult.Data);
+    }
+
+    [HttpGet("games/available/genres")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAvailableGenres()
+    {
+        var serviceResult = await _gameService.GetGameGenresAsync();
+
+        if (!serviceResult.IsValid)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok(serviceResult.Data);
+    }
+
+    [HttpGet("games/available/platforms")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAvailablePlatforms()
+    {
+        var serviceResult = await _gameService.GetGamePlatformsAsync();
+
+        if (!serviceResult.IsValid)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok(serviceResult.Data);
+    }
+
+    [HttpGet("games/available/developers")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAvailableDevelopers()
+    {
+        var serviceResult = await _gameService.GetGameDevelopersAsync();
+
+        if (!serviceResult.IsValid)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok(serviceResult.Data);
+    }
+
+    [HttpGet("games/available/publishers")]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAvailablePublishers()
+    {
+        var serviceResult = await _gameService.GetGamePublishersAsync();
+
+        if (!serviceResult.IsValid)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        return Ok(serviceResult.Data);
+    }
 }
