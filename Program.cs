@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Playmor_Asp.Application.Interfaces;
-using Playmor_Asp.Application.Services;
+using Playmor_Asp.Application;
 using Playmor_Asp.Infrastructure.Data;
-using Playmor_Asp.Infrastructure.Repositories;
 using Playmor_Asp.Infrastructure.Seeders;
 using Playmor_Asp.Presentation.Middlewares;
 using System.Text;
@@ -17,16 +15,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddTransient<GameSeed>();
-builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
-builder.Services.AddTransient<HttpRequestLoggingMiddleware>();
-builder.Services.AddScoped<IGameRepository, GameRepository>();
-builder.Services.AddScoped<IGameService, GameService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IHashingService, HashingService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddAutoMapper(typeof(Program));
+//DI for all services
+builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -102,7 +92,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
-
+app.UseCors(builder =>
+{
+    builder.WithOrigins("https://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -111,12 +107,6 @@ app.UseMiddleware<HttpRequestLoggingMiddleware>();
 
 app.MapControllers();
 
-app.UseCors(builder =>
-{
-    builder.WithOrigins("https://localhost:5173")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials(); // Allow cookies and credentials
-});
+
 
 app.Run();
