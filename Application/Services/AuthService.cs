@@ -25,9 +25,9 @@ public class AuthService : IAuthService
     }
     public string Login(UserLoginDTO userLoginDTO)
     {
-        var user = _userRepository.GetByUsername(userLoginDTO.Username);
+        var user = _userRepository.GetByEmail(userLoginDTO.Email);
         if (user == null)
-            throw new Exception($"User with name {userLoginDTO.Username} not found");
+            throw new Exception($"User with email {userLoginDTO.Email} not found");
 
         var hashesMatch = _hashingService.CompareHash(userLoginDTO.Password, user.PasswordHash, user.PasswordSalt);
         if (!hashesMatch)
@@ -76,10 +76,6 @@ public class AuthService : IAuthService
         List<Claim> claims =
         [
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.UserRole.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Expiration, user.TokenExpires.ToString())
         ];
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
