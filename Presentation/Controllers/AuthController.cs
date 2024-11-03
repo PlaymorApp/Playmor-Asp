@@ -50,7 +50,7 @@ public class AuthController : Controller
         };
         Response.Cookies.Append("authToken", jwt, cookieOptions);
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok();
+        return Ok(new { message = "Login successful." });
 
     }
 
