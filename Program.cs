@@ -107,6 +107,4 @@ app.UseMiddleware<HttpRequestLoggingMiddleware>();
 
 app.MapControllers();
 
-
-
 app.Run();
