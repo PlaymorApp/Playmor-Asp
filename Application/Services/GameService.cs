@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.IdentityModel.Tokens;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
@@ -6,7 +7,6 @@ using Playmor_Asp.Application.Common.Filters;
 using Playmor_Asp.Application.Common.Types;
 using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
-using Playmor_Asp.Application.Validators;
 using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
 
@@ -16,13 +16,13 @@ public class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
     private readonly IMapper _mapper;
-    private readonly GameValidator _gameValidator;
+    private readonly IValidator<Game> _gameValidator;
 
-    public GameService(IGameRepository gameRepository, IMapper mapper)
+    public GameService(IGameRepository gameRepository, IMapper mapper, IValidator<Game> gameValidator)
     {
         _gameRepository = gameRepository;
         _mapper = mapper;
-        _gameValidator = new GameValidator();
+        _gameValidator = gameValidator;
     }
 
     public async Task<ServiceResult<bool, IError>> CreateGameAsync(GameDTO game)
