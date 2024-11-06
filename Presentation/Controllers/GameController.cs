@@ -221,6 +221,7 @@ public class GameController : Controller
     [HttpPut("games/{gameId}")]
     [ProducesResponseType(200, Type = typeof(bool))]
     [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
     [ProducesResponseType(500)]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update([FromRoute] int gameId, [FromBody] GameDTO game)
