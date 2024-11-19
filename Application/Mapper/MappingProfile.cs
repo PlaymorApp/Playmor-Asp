@@ -10,14 +10,20 @@ public class MappingProfile : Profile
     {
         CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>();
+
         CreateMap<UserUpdateDTO, User>();
         CreateMap<User, UserUpdateDTO>();
+
         CreateMap<UserRegisterDTO, User>();
         CreateMap<User, UserRegisterDTO>();
+
         CreateMap<UserCredentialsDTO, User>();
         CreateMap<User, UserCredentialsDTO>();
 
         CreateMap<Game, GameDTO>();
         CreateMap<GameDTO, Game>();
+
+        CreateMap<UserGame, UserGameDTO>();
+        CreateMap<UserGameDTO, UserGame>();
     }
 }
