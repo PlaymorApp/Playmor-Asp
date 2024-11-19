@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
+using Playmor_Asp.Application.Common;
+using Playmor_Asp.Application.Common.Errors;
 using Playmor_Asp.Application.DTOs;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Enums;
@@ -23,15 +25,27 @@ public class AuthService : IAuthService
         _mapper = mapper;
         _config = config;
     }
-    public string Login(UserLoginDTO userLoginDTO)
+    public ServiceResult<string, IError> Login(UserLoginDTO userLoginDTO)
     {
         var user = _userRepository.GetByEmail(userLoginDTO.Email);
         if (user == null)
-            throw new Exception($"User with email {userLoginDTO.Email} not found");
+        {
+            return new ServiceResult<string, IError>
+            {
+                Data = "",
+                Errors = [new NotFoundError($"User with email {userLoginDTO.Email} not found")]
+            };
+        }
 
         var hashesMatch = _hashingService.CompareHash(userLoginDTO.Password, user.PasswordHash, user.PasswordSalt);
         if (!hashesMatch)
-            throw new Exception("Invalid credentials");
+        {
+            return new ServiceResult<string, IError>
+            {
+                Data = "",
+                Errors = [new ValidationError("Incorrect login credentials", "Failed to login with passed credentials")]
+            };
+        }
 
         (var jwt, var token) = CreateToken(user);
 
@@ -41,16 +55,29 @@ public class AuthService : IAuthService
 
         _userRepository.Update(user.Id, user, typeof(UserCredentialsDTO));
 
-        return jwt;
+
+        return new ServiceResult<string, IError> { Data = jwt };
     }
 
-    public string Register(UserRegisterDTO userRegisterDTO)
+    public ServiceResult<string, IError> Register(UserRegisterDTO userRegisterDTO)
     {
         if (_userRepository.GetByUsername(userRegisterDTO.Username) != null)
-            throw new Exception($"User with name {userRegisterDTO.Username} already exists");
+        {
+            return new ServiceResult<string, IError>
+            {
+                Data = "",
+                Errors = [new ValidationError("Username", $"User with name {userRegisterDTO.Username} already exists")]
+            };
+        }
 
         if (_userRepository.GetByEmail(userRegisterDTO.Email) != null)
-            throw new Exception($"User with email {userRegisterDTO.Email} already exists");
+        {
+            return new ServiceResult<string, IError>
+            {
+                Data = "",
+                Errors = [new NotFoundError($"User with email {userRegisterDTO.Email} already exists")]
+            };
+        }
 
         (byte[] hash, byte[] salt) = _hashingService.CreateHash(userRegisterDTO.Password);
 
@@ -68,7 +95,7 @@ public class AuthService : IAuthService
 
         _userRepository.Create(user);
 
-        return jwt;
+        return new ServiceResult<string, IError> { Data = jwt };
     }
 
     public (string, JwtSecurityToken) CreateToken(User user)

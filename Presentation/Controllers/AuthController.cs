@@ -21,7 +21,19 @@ public class AuthController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult Register([FromBody] UserRegisterDTO userRegisterDTO)
     {
-        string jwt = _authService.Register(userRegisterDTO);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var serviceResult = _authService.Register(userRegisterDTO);
+        if (!serviceResult.IsValid)
+        {
+            return BadRequest(serviceResult.Errors);
+        }
+
+        string jwt = serviceResult.Data;
+
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,      // This ensures the cookie is not accessible via JavaScript
@@ -29,9 +41,10 @@ public class AuthController : Controller
             SameSite = SameSiteMode.None,  // Controls cross-site cookie behavior
             Expires = DateTime.Now.AddDays(1)
         };
+
         Response.Cookies.Append("authToken", jwt, cookieOptions);
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok();
+
+        return Ok(new { message = "Registration successful." });
     }
 
     [HttpPost("auth/login")]
@@ -40,7 +53,20 @@ public class AuthController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult Login([FromBody] UserLoginDTO userLoginDTO)
     {
-        string jwt = _authService.Login(userLoginDTO);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var serviceResult = _authService.Login(userLoginDTO);
+
+        if (!serviceResult.IsValid)
+        {
+            return BadRequest(serviceResult.Errors);
+        }
+
+        string jwt = serviceResult.Data;
+
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,      // This ensures the cookie is not accessible via JavaScript
@@ -49,9 +75,8 @@ public class AuthController : Controller
             Expires = DateTime.Now.AddDays(1)
         };
         Response.Cookies.Append("authToken", jwt, cookieOptions);
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
-        return Ok(new { message = "Login successful." });
 
+        return Ok(new { message = "Login successful." });
     }
 
     [HttpGet("auth/logout")]
