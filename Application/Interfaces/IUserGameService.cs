@@ -9,6 +9,6 @@ public interface IUserGameService
     public Task<ServiceResult<UserGameDTO?, IError>> GetUserGameByIdAsync(int id);
     public Task<ServiceResult<ICollection<UserGameDTO>, IError>> GetUserGamesByUserIdAsync(int userId);
     public Task<ServiceResult<bool, IError>> DeleteUserGameAsync(int id);
-    public Task<ServiceResult<bool, IError>> CreateUserGameAsync(UserGameDTO userGameDTO);
+    public Task<ServiceResult<UserGameDTO?, IError>> CreateUserGameAsync(UserGamePostDTO userGamePostDTO);
 
 }
