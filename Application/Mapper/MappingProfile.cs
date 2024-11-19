@@ -25,5 +25,8 @@ public class MappingProfile : Profile
 
         CreateMap<UserGame, UserGameDTO>();
         CreateMap<UserGameDTO, UserGame>();
+
+        CreateMap<UserGame, UserGamePostDTO>();
+        CreateMap<UserGamePostDTO, UserGame>();
     }
 }
