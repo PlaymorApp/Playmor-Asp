@@ -6,6 +6,7 @@ namespace Playmor_Asp.Domain.Models;
 
 public class User
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
