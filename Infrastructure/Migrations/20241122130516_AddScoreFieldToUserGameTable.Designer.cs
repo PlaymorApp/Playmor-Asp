@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Playmor_Asp.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Playmor_Asp.Infrastructure.Data;
 namespace Playmor_Asp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241122130516_AddScoreFieldToUserGameTable")]
+    partial class AddScoreFieldToUserGameTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,35 +24,6 @@ namespace Playmor_Asp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Playmor_Asp.Domain.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CommenterId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ReplyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommenterId");
-
-                    b.ToTable("Comments");
-                });
 
             modelBuilder.Entity("Playmor_Asp.Domain.Models.Game", b =>
                 {
@@ -213,17 +187,6 @@ namespace Playmor_Asp.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserGames");
-                });
-
-            modelBuilder.Entity("Playmor_Asp.Domain.Models.Comment", b =>
-                {
-                    b.HasOne("Playmor_Asp.Domain.Models.User", "Commenter")
-                        .WithMany()
-                        .HasForeignKey("CommenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Commenter");
                 });
 
             modelBuilder.Entity("Playmor_Asp.Domain.Models.Game", b =>
