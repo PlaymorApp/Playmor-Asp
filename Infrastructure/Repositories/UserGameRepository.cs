@@ -15,10 +15,9 @@ public class UserGameRepository : IUserGameRepository
 
     public async Task<UserGame?> CreateAsync(UserGame userGame)
     {
-        var newUserGame = (await _dataContext.UserGames.AddAsync(userGame)).Entity;
-
         try
         {
+            var newUserGame = (await _dataContext.UserGames.AddAsync(userGame)).Entity;
             var saved = await SaveAsync();
             if (!saved) return null;
 
@@ -41,16 +40,7 @@ public class UserGameRepository : IUserGameRepository
 
         _dataContext.Remove(userGame);
 
-        try
-        {
-            var saved = await SaveAsync();
-            return saved;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return false;
-        }
+        return await SaveAsync();
     }
 
     public async Task<UserGame?> GetByIDAsync(int id)
