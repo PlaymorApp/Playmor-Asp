@@ -28,5 +28,14 @@ public class MappingProfile : Profile
 
         CreateMap<UserGame, UserGamePostDTO>();
         CreateMap<UserGamePostDTO, UserGame>();
+
+        CreateMap<Message, MessageDTO>();
+        CreateMap<MessageDTO, Message>();
+
+        CreateMap<MessagePostDTO, MessageDTO>();
+        CreateMap<MessageDTO, MessagePostDTO>();
+
+        CreateMap<MessagePostDTO, Message>();
+        CreateMap<Message, MessagePostDTO>();
     }
 }
