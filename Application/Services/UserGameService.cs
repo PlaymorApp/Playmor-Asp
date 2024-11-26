@@ -75,12 +75,46 @@ public class UserGameService : IUserGameService
         return new ServiceResult<UserGameDTO?, IError> { Data = newUserGameDTO };
     }
 
-    public async Task<ServiceResult<bool, IError>> DeleteUserGameAsync(int id)
+    public async Task<ServiceResult<bool, IError>> DeleteUserGameAsync(int id, int userId)
     {
-        throw new NotImplementedException();
+        var serviceResult = await GetUserGameByIdAsync(id, userId);
+
+        if (!serviceResult.IsValid)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = serviceResult.Errors
+            };
+        }
+
+        var userGame = serviceResult.Data;
+
+        // Already checked in the getter but better to check twice should first check change
+        if (userGame?.UserId != userId)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new UnauthorizedError("Unauthorized request")]
+            };
+        }
+
+        var status = await _userGameRepository.DeleteAsync(id);
+
+        if (!status)
+        {
+            return new ServiceResult<bool, IError>
+            {
+                Data = false,
+                Errors = [new UnexpectedError("Failed to delete userGame")]
+            };
+        }
+
+        return new ServiceResult<bool, IError> { Data = true };
     }
 
-    public async Task<ServiceResult<UserGameDTO?, IError>> GetUserGameByIdAsync(int id)
+    public async Task<ServiceResult<UserGameDTO?, IError>> GetUserGameByIdAsync(int id, int userId)
     {
         if (id < 1)
         {
@@ -100,12 +134,23 @@ public class UserGameService : IUserGameService
                 Errors = [new NotFoundError("No userGame with such id exists")]
             };
         }
+
+        // Only a user can request their own userGame
+        if (userGame.UserId != userId)
+        {
+            return new ServiceResult<UserGameDTO?, IError>
+            {
+                Data = null,
+                Errors = [new UnauthorizedError("Unauthorized request")]
+            };
+        }
+
         var userGameDTO = _mapper.Map<UserGameDTO>(userGame);
         return new ServiceResult<UserGameDTO?, IError> { Data = userGameDTO };
     }
-    public async Task<ServiceResult<ICollection<UserGameDTO>, IError>> GetUserGamesByUserIdAsync(int userId)
+    public async Task<ServiceResult<ICollection<UserGameDTO>, IError>> GetUserGamesByUserIdAsync(int clientId, int userId)
     {
-        if (userId < 1)
+        if (clientId < 1)
         {
             return new ServiceResult<ICollection<UserGameDTO>, IError>
             {
@@ -114,7 +159,17 @@ public class UserGameService : IUserGameService
             };
         }
 
-        var userGames = await _userGameRepository.GetByUserIDAsync(userId);
+        // Only a user can fetch their own userGames
+        if (clientId != userId)
+        {
+            return new ServiceResult<ICollection<UserGameDTO>, IError>
+            {
+                Data = [],
+                Errors = [new UnauthorizedError("Unauthorized request")]
+            };
+        }
+
+        var userGames = await _userGameRepository.GetByUserIDAsync(clientId);
         var userGamesDTO = _mapper.Map<ICollection<UserGameDTO>>(userGames);
 
         return new ServiceResult<ICollection<UserGameDTO>, IError> { Data = userGamesDTO };
