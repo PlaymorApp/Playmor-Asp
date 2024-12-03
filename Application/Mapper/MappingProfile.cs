@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.Comment;
+using Playmor_Asp.Application.DTOs.Game;
+using Playmor_Asp.Application.DTOs.Message;
+using Playmor_Asp.Application.DTOs.User;
+using Playmor_Asp.Application.DTOs.UserGame;
 using Playmor_Asp.Domain.Models;
 
 namespace Playmor_Asp.Application.Mapper;
@@ -11,14 +15,14 @@ public class MappingProfile : Profile
         CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>();
 
-        CreateMap<UserUpdateDTO, User>();
-        CreateMap<User, UserUpdateDTO>();
+        CreateMap<UserPutDTO, User>();
+        CreateMap<User, UserPutDTO>();
 
-        CreateMap<UserRegisterDTO, User>();
-        CreateMap<User, UserRegisterDTO>();
+        CreateMap<UserPostDTO, User>();
+        CreateMap<User, UserPostDTO>();
 
-        CreateMap<UserCredentialsDTO, User>();
-        CreateMap<User, UserCredentialsDTO>();
+        CreateMap<UserTokenDTO, User>();
+        CreateMap<User, UserTokenDTO>();
 
         CreateMap<Game, GameDTO>();
         CreateMap<GameDTO, Game>();
@@ -37,5 +41,17 @@ public class MappingProfile : Profile
 
         CreateMap<MessagePostDTO, Message>();
         CreateMap<Message, MessagePostDTO>();
+
+        CreateMap<MessagePutDTO, Message>();
+        CreateMap<Message, MessagePutDTO>();
+
+        CreateMap<Comment, CommentDTO>();
+        CreateMap<CommentDTO, Comment>();
+
+        CreateMap<CommentPutDTO, Comment>();
+        CreateMap<Comment, CommentPutDTO>();
+
+        CreateMap<CommentPostDTO, Comment>();
+        CreateMap<Comment, CommentPostDTO>();
     }
 }
