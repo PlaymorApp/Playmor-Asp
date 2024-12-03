@@ -36,6 +36,5 @@ public class ReleaseDate
 public class Website
 {
     public required WebsiteNames WebsiteName { get; set; }
-
     public required string WebsiteLink { get; set; }
 }

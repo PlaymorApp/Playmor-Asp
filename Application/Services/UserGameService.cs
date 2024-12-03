@@ -2,7 +2,7 @@
 using FluentValidation;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.UserGame;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
 

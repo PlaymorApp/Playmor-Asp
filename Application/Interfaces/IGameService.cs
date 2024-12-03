@@ -2,7 +2,7 @@
 using Playmor_Asp.Application.Common.Errors;
 using Playmor_Asp.Application.Common.Filters;
 using Playmor_Asp.Application.Common.Types;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.Game;
 using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
 
