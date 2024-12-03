@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Enums;
 using Playmor_Asp.Domain.Models;
@@ -25,7 +25,7 @@ public class AuthService : IAuthService
         _mapper = mapper;
         _config = config;
     }
-    public ServiceResult<string, IError> Login(UserLoginDTO userLoginDTO)
+    public ServiceResult<string, IError> Login(UserAuthDTO userLoginDTO)
     {
         var user = _userRepository.GetByEmail(userLoginDTO.Email);
         if (user == null)
@@ -53,13 +53,13 @@ public class AuthService : IAuthService
         user.TokenCreated = token.ValidFrom;
         user.TokenExpires = token.ValidTo;
 
-        _userRepository.Update(user.Id, user, typeof(UserCredentialsDTO));
+        _userRepository.Update(user.Id, user, typeof(UserTokenDTO));
 
 
         return new ServiceResult<string, IError> { Data = jwt };
     }
 
-    public ServiceResult<string, IError> Register(UserRegisterDTO userRegisterDTO)
+    public ServiceResult<string, IError> Register(UserPostDTO userRegisterDTO)
     {
         if (_userRepository.GetByUsername(userRegisterDTO.Username) != null)
         {

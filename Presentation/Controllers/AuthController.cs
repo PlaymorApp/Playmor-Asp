@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.Interfaces;
 
 namespace Playmor_Asp.Presentation.Controllers;
@@ -19,7 +19,7 @@ public class AuthController : Controller
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Register([FromBody] UserRegisterDTO userRegisterDTO)
+    public IActionResult Register([FromBody] UserPostDTO userRegisterDTO)
     {
         if (!ModelState.IsValid)
         {
@@ -51,7 +51,7 @@ public class AuthController : Controller
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Login([FromBody] UserLoginDTO userLoginDTO)
+    public IActionResult Login([FromBody] UserAuthDTO userLoginDTO)
     {
         if (!ModelState.IsValid)
         {

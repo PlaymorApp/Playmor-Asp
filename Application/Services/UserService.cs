@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
 
@@ -42,13 +42,13 @@ public class UserService : IUserService
         return _mapper.Map<UserDTO>(user);
     }
 
-    public UserUpdateDTO UpdateUser(int id, UserUpdateDTO userDTO)
+    public UserPutDTO UpdateUser(int id, UserPutDTO userDTO)
     {
         if (id < 1) throw new ArgumentException($"Invalid argument {id}. Must be greater or equal 1");
         _ = _userRepository.GetByID(id) ?? throw new Exception($"User with id {id} not found");
         var mappedUser = _mapper.Map<User>(userDTO);
-        var updatedUser = _userRepository.Update(id, mappedUser, typeof(UserUpdateDTO));
-        return _mapper.Map<UserUpdateDTO>(updatedUser);
+        var updatedUser = _userRepository.Update(id, mappedUser, typeof(UserPutDTO));
+        return _mapper.Map<UserPutDTO>(updatedUser);
     }
 
     public UserDTO DeleteUser(int id)

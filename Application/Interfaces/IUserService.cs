@@ -1,4 +1,4 @@
-﻿using Playmor_Asp.Application.DTOs;
+﻿using Playmor_Asp.Application.DTOs.User;
 
 namespace Playmor_Asp.Application.Interfaces;
 
@@ -8,6 +8,6 @@ public interface IUserService
     public UserDTO GetUserById(int id);
     public UserDTO GetUserByEmail(string email);
     public UserDTO GetUserByUsername(string username);
-    public UserUpdateDTO UpdateUser(int id, UserUpdateDTO userDTO);
+    public UserPutDTO UpdateUser(int id, UserPutDTO userDTO);
     public UserDTO DeleteUser(int id);
 }
