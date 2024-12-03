@@ -1,7 +1,5 @@
-﻿using Playmor_Asp.Domain.Models;
-
-namespace Playmor_Asp.Application.DTOs;
-
+﻿namespace Playmor_Asp.Application.DTOs.UserGame;
+using Game = Domain.Models.Game;
 public class UserGameDTO
 {
     public int Id { get; set; }

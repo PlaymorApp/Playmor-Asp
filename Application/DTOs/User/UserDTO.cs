@@ -1,6 +1,6 @@
 ﻿using Playmor_Asp.Domain.Enums;
 
-namespace Playmor_Asp.Application.DTOs;
+namespace Playmor_Asp.Application.DTOs.User;
 
 public class UserDTO
 {

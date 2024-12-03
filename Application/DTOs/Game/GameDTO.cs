@@ -1,6 +1,6 @@
 ﻿using Playmor_Asp.Domain.Models;
 
-namespace Playmor_Asp.Application.DTOs;
+namespace Playmor_Asp.Application.DTOs.Game;
 
 public class GameDTO
 {

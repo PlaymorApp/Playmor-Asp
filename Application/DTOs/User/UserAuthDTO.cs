@@ -1,6 +1,6 @@
-﻿namespace Playmor_Asp.Application.DTOs;
+﻿namespace Playmor_Asp.Application.DTOs.User;
 
-public class UserLoginDTO
+public class UserAuthDTO
 {
     public string Email { get; set; }
     public string Password { get; set; }

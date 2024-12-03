@@ -1,4 +1,4 @@
-﻿namespace Playmor_Asp.Application.DTOs;
+﻿namespace Playmor_Asp.Application.DTOs.Message;
 
 public class MessagePostDTO
 {
