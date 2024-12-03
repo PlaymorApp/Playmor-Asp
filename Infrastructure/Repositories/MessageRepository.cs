@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
+using Playmor_Asp.Helpers;
 using Playmor_Asp.Infrastructure.Data;
 
 namespace Playmor_Asp.Infrastructure.Repositories;
@@ -30,6 +31,19 @@ public class MessageRepository : IMessageRepository
         }
 
         return newMessage;
+    }
+
+    public async Task<Message?> UpdateAsync(Message newMessage, int oldMessageId)
+    {
+        var oldMessage = await GetByIDAsync(oldMessageId);
+        if (oldMessage == null)
+        {
+            return null;
+        }
+        string[] skipProps = ["Id", "RecipientId", "SenderId", "CreatedAt"];
+        PropertyCopier.CopyProperties<Message>(newMessage, oldMessage, skipProps);
+        var status = await SaveAsync();
+        return status ? oldMessage : null;
     }
 
     public async Task<bool> DeleteAsync(int id)

@@ -8,6 +8,7 @@ public interface IMessageRepository
     public Task<ICollection<Message>> GetByRecipientIdAsync(int recipientId);
     public Task<ICollection<Message>> GetBySenderIdAsync(int senderId);
     public Task<Message?> CreateAsync(Message message);
+    public Task<Message?> UpdateAsync(Message newMessage, int oldMessageId);
     public Task<bool> DeleteAsync(int id);
     public Task<bool> SaveAsync();
 }

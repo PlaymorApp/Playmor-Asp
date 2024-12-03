@@ -2,7 +2,8 @@
 using FluentValidation;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.Message;
+using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
 
@@ -48,6 +49,68 @@ public class MessageService : IMessageService
         }
 
         return new ServiceResult<Message?, IError> { Data = newMessage };
+    }
+
+    public async Task<ServiceResult<Message?, IError>> UpdateMessageAsync(MessagePutDTO messagePutDTO, int userId)
+    {
+        var message = _mapper.Map<Message>(messagePutDTO);
+
+        var validation = _messageValidator.Validate(message);
+
+        if (!validation.IsValid)
+        {
+            return new ServiceResult<Message?, IError>
+            {
+                Data = null,
+                Errors = [new ValidationError("message", "Invalid message received")]
+            };
+        }
+
+        var existingMessage = await _messageRepository.GetByIDAsync(message.Id);
+
+        if (existingMessage == null)
+        {
+            return new ServiceResult<Message?, IError>
+            {
+                Data = null,
+                Errors = [new NotFoundError($"Message with id {message.Id} doesn't exist")]
+            };
+        }
+
+        Message? updatedMessage = null;
+        // Sender can change the message contents
+        if (existingMessage.SenderId == userId)
+        {
+            // Request claiming to be sender hadn't changed isRead
+            // Then update contents
+            if (existingMessage.IsRead == messagePutDTO.IsRead)
+            {
+                updatedMessage = await _messageRepository.UpdateAsync(message, message.Id);
+            }
+        }
+
+        // Recipients can change the isRead flag
+        if (existingMessage.RecipientId == userId)
+        {
+            // Request claiming to be recipient hadn't changed contents
+            // Then update isRead
+            if (existingMessage.Content == messagePutDTO.Content)
+            {
+                updatedMessage = await _messageRepository.UpdateAsync(message, message.Id);
+            }
+        }
+
+
+        if (updatedMessage == null)
+        {
+            return new ServiceResult<Message?, IError>
+            {
+                Data = null,
+                Errors = [new UnexpectedError("Failed to update message")]
+            };
+        }
+
+        return new ServiceResult<Message?, IError> { Data = updatedMessage };
     }
 
     public async Task<ServiceResult<bool, IError>> DeleteMessageAsync(int id, int userId)
