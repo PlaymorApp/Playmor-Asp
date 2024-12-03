@@ -16,18 +16,29 @@ public static class ServiceRegistrationExtensions
         services.AddTransient<GameSeed>();
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
         services.AddTransient<HttpRequestLoggingMiddleware>();
+
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IGameService, GameService>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserGameService, UserGameService>();
-        services.AddScoped<IUserGameRepository, UserGameRepository>();
-        services.AddScoped<IHashingService, HashingService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserGameRepository, UserGameRepository>();
+        services.AddScoped<IUserGameService, UserGameService>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IMessageService, MessageService>();
+
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IHashingService, HashingService>();
+
         services.AddScoped<IValidator<Game>, GameValidator>();
         services.AddScoped<IValidator<User>, UserValidator>();
+        services.AddScoped<IValidator<Message>, MessageValidator>();
+        services.AddScoped<IValidator<Comment>, CommentValidator>();
         services.AddScoped<IValidator<UserGame>, UserGameValidator>();
+
         services.AddAutoMapper(typeof(Program));
+
         return services;
     }
 }
