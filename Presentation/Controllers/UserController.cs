@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.Interfaces;
-using System.Security.Claims;
+using Playmor_Asp.Helpers;
 
 namespace Playmor_Asp.Presentation.Controllers;
 
@@ -25,14 +25,12 @@ public class UserController : Controller
     [Authorize]
     public IActionResult GetUserProfile()
     {
-        // Retrieve the user ID from the claims
-        var uidClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (uidClaim == null || !int.TryParse(uidClaim, out var uid))
+        if (User.GetUserId() is not int userId)
         {
-            return BadRequest("User ID claim is missing or invalid.");
+            return Unauthorized("Unauthorized to access resource");
         }
 
-        var user = _userService.GetUserById(uid);
+        var user = _userService.GetUserById(userId);
         if (user == null)
         {
             return NotFound();

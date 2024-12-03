@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Playmor_Asp.Application.Common.Errors;
-using Playmor_Asp.Application.DTOs;
+using Playmor_Asp.Application.DTOs.Message;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
-using System.Security.Claims;
+using Playmor_Asp.Helpers;
 
 namespace Playmor_Asp.Presentation.Controllers;
 [Route("api")]
@@ -30,11 +30,9 @@ public class MessageController : Controller
             return BadRequest(ModelState);
         }
 
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (User.GetUserId() is not int userId)
         {
-            return Unauthorized(new { Message = "Invalid or missing user ID." });
+            return Unauthorized("Unauthorized to access resource");
         }
 
         var serviceResult = await _messageService.GetMessageByIDAsync(id, userId);
@@ -71,11 +69,9 @@ public class MessageController : Controller
             return BadRequest(ModelState);
         }
 
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (User.GetUserId() is not int userId)
         {
-            return Unauthorized(new { Message = "Invalid or missing user ID." });
+            return Unauthorized("Unauthorized to access resource");
         }
 
         var serviceResult = await _messageService.GetMessagesByRecipientIdAsync(id, userId);
@@ -116,11 +112,9 @@ public class MessageController : Controller
             return BadRequest(ModelState);
         }
 
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (User.GetUserId() is not int userId)
         {
-            return Unauthorized(new { Message = "Invalid or missing user ID." });
+            return Unauthorized("Unauthorized to access resource");
         }
 
         var serviceResult = await _messageService.GetMessagesBySenderIdAsync(id, userId);
@@ -161,11 +155,9 @@ public class MessageController : Controller
             return BadRequest(ModelState);
         }
 
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (User.GetUserId() is not int userId)
         {
-            return Unauthorized(new { Message = "Invalid or missing user ID." });
+            return Unauthorized("Unauthorized to access resource");
         }
 
         var serviceResult = await _messageService.CreateMessageAsync(messagePostDTO, userId);
@@ -206,11 +198,9 @@ public class MessageController : Controller
             return BadRequest(ModelState);
         }
 
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+        if (User.GetUserId() is not int userId)
         {
-            return Unauthorized(new { Message = "Invalid or missing user ID." });
+            return Unauthorized("Unauthorized to access resource");
         }
 
         var serviceResult = await _messageService.DeleteMessageAsync(id, userId);
