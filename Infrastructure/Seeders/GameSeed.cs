@@ -54,7 +54,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Other,
+                        WebsiteName = Domain.Enums.WebsiteName.Other,
                         WebsiteLink = "https://zenless.hoyoverse.com/en-us/main"
                     }
                 ]
@@ -103,17 +103,17 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/1245620/ELDEN_RING/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Xbox,
+                        WebsiteName = Domain.Enums.WebsiteName.Xbox,
                         WebsiteLink = "https://www.xbox.com/en-US/games/elden-ring/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Microsoft,
+                        WebsiteName = Domain.Enums.WebsiteName.Microsoft,
                         WebsiteLink = "https://www.microsoft.com/en-us/p/elden-ring/9nl9dv1sh9ls"
                     }
                 ]
@@ -167,22 +167,22 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Xbox,
+                        WebsiteName = Domain.Enums.WebsiteName.Xbox,
                         WebsiteLink = "https://www.xbox.com/en-us/games/store/The-Witcher-3-Wild-Hunt/BR765873CQJD"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteName = Domain.Enums.WebsiteName.EpicGames,
                         WebsiteLink = "https://store.epicgames.com/en-US/p/the-witcher-3-wild-hunt"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.GOG,
+                        WebsiteName = Domain.Enums.WebsiteName.GOG,
                         WebsiteLink = "https://www.gog.com/en/game/the_witcher_3_wild_hunt"
                     }
                 ]
@@ -236,17 +236,17 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/753640/Outer_Wilds/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Xbox,
+                        WebsiteName = Domain.Enums.WebsiteName.Xbox,
                         WebsiteLink = "https://www.xbox.com/en-us/games/store/Outer-Wilds/C596FKDKMQN7/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteName = Domain.Enums.WebsiteName.EpicGames,
                         WebsiteLink = "https://store.epicgames.com/en-US/p/outerwilds"
                     }
                 ]
@@ -300,12 +300,12 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/367520/Hollow_Knight/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Xbox,
+                        WebsiteName = Domain.Enums.WebsiteName.Xbox,
                         WebsiteLink = "https://www.xbox.com/en-us/games/store/Hollow-Knight-Voidheart-Edition/9MW9469V91LM/"
                     }
                 ]
@@ -369,12 +369,12 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/632470/Disco_Elysium__The_Final_Cut/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Xbox,
+                        WebsiteName = Domain.Enums.WebsiteName.Xbox,
                         WebsiteLink = "https://www.xbox.com/en-us/games/store/Disco-Elysium-The-Final-Cut/9NTRS771L8HL"
                     },
 
@@ -429,12 +429,12 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/237930/Transistor/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteName = Domain.Enums.WebsiteName.EpicGames,
                         WebsiteLink = "https://store.epicgames.com/en-US/p/transistor/"
                     }
                 ]
@@ -483,12 +483,12 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/504230/Celeste/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteName = Domain.Enums.WebsiteName.EpicGames,
                         WebsiteLink = "https://www.epicgames.com/store/en-US/p/celeste"
                     }
                 ]
@@ -537,12 +537,12 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/391420/Undertale/"
                     },
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.EpicGames,
+                        WebsiteName = Domain.Enums.WebsiteName.EpicGames,
                         WebsiteLink = "https://www.epicgames.com/store/en-US/p/undertale"
                     }
                 ]
@@ -576,7 +576,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Nintendo,
+                        WebsiteName = Domain.Enums.WebsiteName.Nintendo,
                         WebsiteLink = "https://www.zelda.com/breath-of-the-wild/"
                     }
                 ]
@@ -615,7 +615,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/374320/DARK_SOULS_III/"
                     }
                 ]
@@ -649,7 +649,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/538510/PERSONA_5/"
                     }
                 ]
@@ -683,7 +683,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Sony,
+                        WebsiteName = Domain.Enums.WebsiteName.Sony,
                         WebsiteLink = "https://www.playstation.com/en-us/games/god-of-war/"
                     }
                 ]
@@ -727,7 +727,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Blizzard,
+                        WebsiteName = Domain.Enums.WebsiteName.Blizzard,
                         WebsiteLink = "https://playoverwatch.com/"
                     }
                 ]
@@ -766,7 +766,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/814380/Sekiro_Shadows_Die_Twice/"
                     }
                 ]
@@ -805,7 +805,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/413150/Stardew_Valley/"
                     }
                 ]
@@ -839,7 +839,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Sony,
+                        WebsiteName = Domain.Enums.WebsiteName.Sony,
                         WebsiteLink = "https://www.playstation.com/en-us/games/ghost-of-tsushima/"
                     }
                 ]
@@ -883,7 +883,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/782330/DOOM_Eternal/"
                     }
                 ]
@@ -927,7 +927,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/870780/Control/"
                     }
                 ]
@@ -966,7 +966,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/1134570/FINAL_FANTASY_VII_REMAKE_Intergrade/"
                     }
                 ]
@@ -1010,7 +1010,7 @@ public class GameSeed
                 [
                     new Website()
                     {
-                        WebsiteName = Domain.Enums.WebsiteNames.Steam,
+                        WebsiteName = Domain.Enums.WebsiteName.Steam,
                         WebsiteLink = "https://store.steampowered.com/app/1145360/Hades/"
                     }
                 ]

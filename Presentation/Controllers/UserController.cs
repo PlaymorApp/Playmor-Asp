@@ -46,7 +46,6 @@ public class UserController : Controller
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
     public IActionResult GetUser([FromRoute] int userId)
     {
         var user = _userService.GetUserById(userId);
