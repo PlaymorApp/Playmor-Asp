@@ -1,6 +1,6 @@
 ﻿namespace Playmor_Asp.Domain.Enums;
 
-public enum WebsiteNames
+public enum WebsiteName
 {
     Steam,
     Xbox,

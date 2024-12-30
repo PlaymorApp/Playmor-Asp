@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Playmor_Asp.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Playmor_Asp.Domain.Models;
 
@@ -9,6 +10,7 @@ public class UserGame
     public required int GameId { get; set; }
     public required int UserId { get; set; }
     public required int Score { get; set; }
+    public required UserGameStatus Status { get; set; }
     public required Game Game { get; set; }
     public required User User { get; set; }
 

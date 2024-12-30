@@ -23,5 +23,9 @@ public class DataContext : DbContext
                 wb.Property(w => w.WebsiteName).HasConversion<string>();
             });
 
+        modelBuilder.Entity<UserGame>()
+        .Property(ug => ug.Status)
+        .HasConversion<string>();
+
     }
 }

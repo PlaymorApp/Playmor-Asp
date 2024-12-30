@@ -2,6 +2,8 @@
 using FluentValidation;
 using Playmor_Asp.Application.Common;
 using Playmor_Asp.Application.Common.Errors;
+using Playmor_Asp.Application.Common.Types;
+using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.DTOs.UserGame;
 using Playmor_Asp.Application.Interfaces;
 using Playmor_Asp.Domain.Models;
@@ -148,7 +150,7 @@ public class UserGameService : IUserGameService
         var userGameDTO = _mapper.Map<UserGameDTO>(userGame);
         return new ServiceResult<UserGameDTO?, IError> { Data = userGameDTO };
     }
-    public async Task<ServiceResult<ICollection<UserGameDTO>, IError>> GetUserGamesByUserIdAsync(int clientId, int userId)
+    public async Task<ServiceResult<ICollection<UserGameDTO>, IError>> GetUserGamesByUserIdAsync(int clientId)
     {
         if (clientId < 1)
         {
@@ -159,19 +161,94 @@ public class UserGameService : IUserGameService
             };
         }
 
-        // Only a user can fetch their own userGames
-        if (clientId != userId)
+        var userGames = await _userGameRepository.GetByUserIDAsync(clientId);
+        var userGamesDTO = _mapper.Map<ICollection<UserGameDTO>>(userGames);
+        var userDTO = _mapper.Map<UserDTO>(_userRepository.GetByID(clientId));
+        foreach (var userGameDTO in userGamesDTO)
         {
-            return new ServiceResult<ICollection<UserGameDTO>, IError>
+            userGameDTO.User = userDTO;
+        }
+
+        return new ServiceResult<ICollection<UserGameDTO>, IError> { Data = userGamesDTO };
+    }
+
+    public async Task<ServiceResult<UserGameStatistics?, IError>> GetUserGamesStatisticsAsync(int userId)
+    {
+        if (userId < 1)
+        {
+            return new ServiceResult<UserGameStatistics?, IError>
             {
-                Data = [],
-                Errors = [new UnauthorizedError("Unauthorized request")]
+                Data = null,
+                Errors = [new ValidationError("userId", "Invalid userId passed, id has to be greater than 0")]
             };
         }
 
-        var userGames = await _userGameRepository.GetByUserIDAsync(clientId);
-        var userGamesDTO = _mapper.Map<ICollection<UserGameDTO>>(userGames);
+        var client = _mapper.Map<UserDTO>(_userRepository.GetByID(userId));
+        if (client == null)
+        {
+            return new ServiceResult<UserGameStatistics?, IError>
+            {
+                Data = null,
+                Errors = [new NotFoundError("No user found with given id")]
+            };
+        }
 
-        return new ServiceResult<ICollection<UserGameDTO>, IError> { Data = userGamesDTO };
+        var serviceResult = await GetUserGamesByUserIdAsync(userId);
+
+        if (!serviceResult.IsValid)
+        {
+            return new ServiceResult<UserGameStatistics?, IError>
+            { Data = null, Errors = serviceResult.Errors };
+        }
+
+        var gamesTotal = serviceResult.Data.Count;
+
+        if (gamesTotal == 0)
+        {
+            return new ServiceResult<UserGameStatistics?, IError>
+            {
+                Data = new UserGameStatistics
+                {
+                    Games = 0,
+                    GamesInProgress = 0,
+                    GamesCompleted = 0,
+                    GamesDropped = 0,
+                    AverageRating = 0
+                }
+            };
+        }
+
+        var gamesInProgress = 0;
+        var gamesCompleted = 0;
+        var gamesDropped = 0;
+        var totalScore = 0;
+
+        foreach (var game in serviceResult.Data)
+        {
+            if (game.Status == Domain.Enums.UserGameStatus.Playing)
+                gamesInProgress++;
+            if (game.Status == Domain.Enums.UserGameStatus.Completed)
+                gamesCompleted++;
+            if (game.Status == Domain.Enums.UserGameStatus.Dropped)
+                gamesDropped++;
+
+            totalScore += game.Score;
+        }
+
+        var averageRating = (double)totalScore / gamesTotal;
+
+        var userGameStatistics = new UserGameStatistics
+        {
+            Games = gamesTotal,
+            GamesInProgress = gamesInProgress,
+            GamesCompleted = gamesCompleted,
+            GamesDropped = gamesDropped,
+            AverageRating = averageRating
+        };
+
+        return new ServiceResult<UserGameStatistics?, IError>
+        {
+            Data = userGameStatistics,
+        };
     }
 }
