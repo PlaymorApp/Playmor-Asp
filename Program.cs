@@ -102,7 +102,7 @@ app.UseCors(builder =>
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+//app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.UseMiddleware<HttpRequestLoggingMiddleware>();
 
 app.MapControllers();
