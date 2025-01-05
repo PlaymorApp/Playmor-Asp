@@ -117,6 +117,18 @@ public class CommentService : ICommentService
         return new ServiceResult<ICollection<CommentDTO>, IError> { Data = FormatComments(comments) };
     }
 
+    public async Task<ServiceResult<ICollection<CommentDTO>, IError>> GetAllRepliesByCommentIdAsync(int commentId)
+    {
+        var comments = await _commentRepository.GetByReplyIdAsync(commentId);
+
+        if (comments == null)
+        {
+            return new ServiceResult<ICollection<CommentDTO>, IError> { Data = [], Errors = [new UnexpectedError("Unexpected error encoutered.")] };
+        }
+
+        return new ServiceResult<ICollection<CommentDTO>, IError> { Data = FormatComments(comments) };
+    }
+
     public async Task<ServiceResult<CommentDTO?, IError>> GetCommentByIdAsync(int id)
     {
         if (id < 1)

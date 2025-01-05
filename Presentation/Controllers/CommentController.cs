@@ -42,7 +42,7 @@ public class CommentController : Controller
         return Ok(serviceResult.Data);
     }
 
-    [HttpGet("comments/game/{id}")]
+    [HttpGet("comments/game/{gameId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<CommentDTO>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,12 +80,50 @@ public class CommentController : Controller
         return Ok(serviceResult.Data);
     }
 
-    [HttpPost("/comments")]
-    [Authorize]
+    [HttpGet("comments/replies/{commentId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<CommentDTO>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetAllRepliesByCommentId([FromRoute] int commentId)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var serviceResult = await _commentService.GetAllRepliesByCommentIdAsync(commentId);
+
+        if (serviceResult == null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Unexpected error encoutered." });
+        }
+
+        if (!serviceResult.IsValid)
+        {
+            if (serviceResult.Errors.Any(e => e is ValidationError))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new { errors = serviceResult.Errors });
+            }
+            if (serviceResult.Errors.Any(e => e is NotFoundError))
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new { errors = serviceResult.Errors });
+            }
+            if (serviceResult.Errors.Any(e => e is UnexpectedError))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { errors = serviceResult.Errors });
+            }
+        }
+
+        return Ok(serviceResult.Data);
+    }
+
+    [HttpPost("comments")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize]
     public async Task<IActionResult> CreateCommentAsync([FromBody] CommentPostDTO commentPostDTO)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -118,7 +156,7 @@ public class CommentController : Controller
         return Ok(serviceResult.Data);
     }
 
-    [HttpPut("/comments/{commentId}")]
+    [HttpPut("comments/{commentId}")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -156,7 +194,7 @@ public class CommentController : Controller
         return Ok(serviceResult.Data);
     }
 
-    [HttpDelete("/comments/{commentId}")]
+    [HttpDelete("comments/{commentId}")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

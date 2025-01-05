@@ -56,6 +56,14 @@ public class CommentRepository : ICommentRepository
             .ToListAsync();
     }
 
+    public async Task<ICollection<Comment>> GetByReplyIdAsync(int id)
+    {
+        return await _dataContext.Comments
+            .Where(c => c.ReplyId == id)
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync();
+    }
+
     public async Task<Comment?> GetByIdAsync(int id)
     {
         return await _dataContext.Comments.FindAsync(id);

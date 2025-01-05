@@ -8,6 +8,7 @@ public interface ICommentService
 {
     public Task<ServiceResult<ICollection<CommentDTO>, IError>> GetAllCommentsAsync();
     public Task<ServiceResult<ICollection<CommentDTO>, IError>> GetAllCommentsByGameIdAsync(int gameId);
+    public Task<ServiceResult<ICollection<CommentDTO>, IError>> GetAllRepliesByCommentIdAsync(int commentId);
     public Task<ServiceResult<CommentDTO?, IError>> GetCommentByIdAsync(int id);
     public Task<ServiceResult<CommentDTO?, IError>> CreateCommentAsync(CommentPostDTO commentPostDTO, int userId);
     public Task<ServiceResult<CommentDTO?, IError>> UpdateCommentAsync(CommentPutDTO commentPutDTO, int userId);
