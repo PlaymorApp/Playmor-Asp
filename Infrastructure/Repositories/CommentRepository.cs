@@ -17,7 +17,7 @@ public class CommentRepository : ICommentRepository
 
     public async Task<Comment?> CreateAsync(Comment comment)
     {
-        var newComment = (await _dataContext.AddAsync(comment)).Entity;
+        var newComment = (await _dataContext.Comments.AddAsync(comment)).Entity;
 
         if (newComment == null)
         {
