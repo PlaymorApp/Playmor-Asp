@@ -12,6 +12,7 @@ public class DataContext : DbContext
     public DbSet<UserGame> UserGames { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<CommentScore> CommentScores { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Game>()

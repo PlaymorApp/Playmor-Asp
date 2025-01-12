@@ -25,6 +25,8 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<IUserGameService, UserGameService>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<ICommentScoreRepository, CommentScoreRepository>();
+        services.AddScoped<ICommentScoreService, CommentScoreService>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IMessageService, MessageService>();
 
@@ -36,6 +38,7 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<IValidator<Message>, MessageValidator>();
         services.AddScoped<IValidator<Comment>, CommentValidator>();
         services.AddScoped<IValidator<UserGame>, UserGameValidator>();
+        services.AddScoped<IValidator<CommentScore>, CommentScoreValidator>();
 
         services.AddAutoMapper(typeof(Program));
 

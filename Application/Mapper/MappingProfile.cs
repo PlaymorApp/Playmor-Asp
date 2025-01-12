@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Playmor_Asp.Application.DTOs.Comment;
+using Playmor_Asp.Application.DTOs.CommentScore;
 using Playmor_Asp.Application.DTOs.Game;
 using Playmor_Asp.Application.DTOs.Message;
 using Playmor_Asp.Application.DTOs.User;
@@ -53,5 +54,11 @@ public class MappingProfile : Profile
 
         CreateMap<CommentPostDTO, Comment>();
         CreateMap<Comment, CommentPostDTO>();
+
+        CreateMap<CommentScore, CommentScoreDTO>();
+        CreateMap<CommentScoreDTO, CommentScore>();
+
+        CreateMap<CommentScorePostDTO, CommentScore>();
+        CreateMap<CommentScore, CommentScorePostDTO>();
     }
 }
