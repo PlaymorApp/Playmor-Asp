@@ -7,8 +7,9 @@ public class CommentDTO
     public int Id { get; set; }
     public int? ReplyId { get; set; }
     public int GameId { get; set; }
-    public required int CommenterId { get; set; }
-    public required string Content { get; set; }
-    public required UserDTO Commenter { get; set; }
+    public int CommenterId { get; set; }
+    public int Score { get; set; }
+    public string Content { get; set; }
+    public UserDTO Commenter { get; set; }
     public DateTime CreatedAt { get; set; }
 }

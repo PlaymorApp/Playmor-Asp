@@ -4,6 +4,6 @@ public class CommentPostDTO
 {
     public int GameId { get; set; }
     public int? ReplyId { get; set; }
-    public required int CommenterId { get; set; }
-    public required string Content { get; set; }
+    public int CommenterId { get; set; }
+    public string Content { get; set; }
 }
