@@ -29,6 +29,8 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<ICommentScoreService, CommentScoreService>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IMessageService, MessageService>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<INotificationService, NotificationService>();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IHashingService, HashingService>();
@@ -38,7 +40,10 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<IValidator<Message>, MessageValidator>();
         services.AddScoped<IValidator<Comment>, CommentValidator>();
         services.AddScoped<IValidator<UserGame>, UserGameValidator>();
+        services.AddScoped<IValidator<Friend>, FriendValidator>();
+        services.AddScoped<IValidator<Notification>, NotificationValidator>();
         services.AddScoped<IValidator<CommentScore>, CommentScoreValidator>();
+
 
         services.AddAutoMapper(typeof(Program));
 

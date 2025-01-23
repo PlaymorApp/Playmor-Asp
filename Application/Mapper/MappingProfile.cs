@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Playmor_Asp.Application.DTOs.Comment;
 using Playmor_Asp.Application.DTOs.CommentScore;
+using Playmor_Asp.Application.DTOs.Friend;
 using Playmor_Asp.Application.DTOs.Game;
 using Playmor_Asp.Application.DTOs.Message;
+using Playmor_Asp.Application.DTOs.Notification;
 using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.DTOs.UserGame;
 using Playmor_Asp.Domain.Models;
@@ -27,6 +29,9 @@ public class MappingProfile : Profile
 
         CreateMap<Game, GameDTO>();
         CreateMap<GameDTO, Game>();
+
+        CreateMap<GamePostDTO, Game>();
+        CreateMap<Game, GamePostDTO>();
 
         CreateMap<UserGame, UserGameDTO>();
         CreateMap<UserGameDTO, UserGame>();
@@ -60,5 +65,17 @@ public class MappingProfile : Profile
 
         CreateMap<CommentScorePostDTO, CommentScore>();
         CreateMap<CommentScore, CommentScorePostDTO>();
+
+        CreateMap<Friend, FriendDTO>();
+        CreateMap<FriendDTO, Friend>();
+
+        CreateMap<FriendPostDTO, Friend>();
+        CreateMap<Friend, FriendPostDTO>();
+
+        CreateMap<Notification, NotificationDTO>();
+        CreateMap<NotificationDTO, Notification>();
+
+        CreateMap<NotificationPostDTO, Notification>();
+        CreateMap<Notification, NotificationPostDTO>();
     }
 }

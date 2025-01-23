@@ -13,6 +13,8 @@ public class DataContext : DbContext
     public DbSet<Message> Messages { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<CommentScore> CommentScores { get; set; }
+    public DbSet<Friend> Friends { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Game>()
@@ -28,5 +30,8 @@ public class DataContext : DbContext
         .Property(ug => ug.Status)
         .HasConversion<string>();
 
+        modelBuilder.Entity<Notification>()
+        .Property(ug => ug.Type)
+        .HasConversion<string>();
     }
 }
