@@ -14,7 +14,7 @@ public class User
     public DateTime TokenCreated { get; set; }
     public DateTime TokenExpires { get; set; }
     public required string Email { get; set; }
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
     public UserRole UserRole { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
