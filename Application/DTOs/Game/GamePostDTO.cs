@@ -2,9 +2,8 @@
 
 namespace Playmor_Asp.Application.DTOs.Game;
 
-public class GameDTO
+public class GamePostDTO
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public string Details { get; set; }

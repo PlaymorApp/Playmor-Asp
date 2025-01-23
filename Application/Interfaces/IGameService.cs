@@ -11,7 +11,7 @@ namespace Playmor_Asp.Application.Interfaces;
 public interface IGameService
 {
     Task<ServiceResult<Game?, IError>> GetGameAsync(int id);
-    Task<ServiceResult<bool, IError>> CreateGameAsync(GameDTO game);
+    Task<ServiceResult<bool, IError>> CreateGameAsync(GamePostDTO game);
     Task<ServiceResult<bool, IError>> UpdateGameAsync(int id, GameDTO game);
     Task<ServiceResult<bool, IError>> DeleteGameAsync(int id);
     Task<ServiceResult<ICollection<Game>, IError>> GetGamesAsync();

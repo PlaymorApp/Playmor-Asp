@@ -25,7 +25,7 @@ public class GameService : IGameService
         _gameValidator = gameValidator;
     }
 
-    public async Task<ServiceResult<bool, IError>> CreateGameAsync(GameDTO game)
+    public async Task<ServiceResult<bool, IError>> CreateGameAsync(GamePostDTO game)
     {
         if (game == null)
         {
