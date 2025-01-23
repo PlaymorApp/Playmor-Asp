@@ -235,7 +235,7 @@ public class UserGameService : IUserGameService
             totalScore += game.Score;
         }
 
-        var averageRating = (double)totalScore / gamesTotal;
+        var averageRating = Math.Round((double)totalScore / gamesTotal, 2);
 
         var userGameStatistics = new UserGameStatistics
         {

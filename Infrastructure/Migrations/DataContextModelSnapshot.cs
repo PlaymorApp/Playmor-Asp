@@ -190,7 +190,6 @@ namespace Playmor_Asp.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Token")

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Playmor_Asp.Application.Common.Errors;
 using Playmor_Asp.Application.DTOs.User;
 using Playmor_Asp.Application.Interfaces;
 
@@ -27,9 +28,17 @@ public class AuthController : Controller
         }
 
         var serviceResult = _authService.Register(userRegisterDTO);
+
         if (!serviceResult.IsValid)
         {
-            return BadRequest(serviceResult.Errors);
+            if (serviceResult.Errors.Any(e => e is ValidationError))
+            {
+                return BadRequest("Invalid data passed.");
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unexpected server error");
+            }
         }
 
         string jwt = serviceResult.Data;
@@ -62,7 +71,14 @@ public class AuthController : Controller
 
         if (!serviceResult.IsValid)
         {
-            return BadRequest(serviceResult.Errors);
+            if (serviceResult.Errors.Any(e => e is ValidationError))
+            {
+                return BadRequest("Invalid data passed.");
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Unexpected server error");
+            }
         }
 
         string jwt = serviceResult.Data;

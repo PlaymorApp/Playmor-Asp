@@ -53,8 +53,11 @@ public class AuthService : IAuthService
         user.TokenCreated = token.ValidFrom;
         user.TokenExpires = token.ValidTo;
 
-        _userRepository.Update(user.Id, user, typeof(UserTokenDTO));
-
+        var status = _userRepository.Update(user.Id, user, typeof(UserTokenDTO));
+        if (status == null)
+        {
+            return new ServiceResult<string, IError> { Data = "", Errors = [new UnexpectedError("Unexpected server error.")] };
+        }
 
         return new ServiceResult<string, IError> { Data = jwt };
     }
@@ -93,8 +96,11 @@ public class AuthService : IAuthService
         user.TokenCreated = token.ValidFrom;
         user.TokenExpires = token.ValidTo;
 
-        _userRepository.Create(user);
-
+        var status = _userRepository.Create(user);
+        if (status == null)
+        {
+            return new ServiceResult<string, IError> { Data = "", Errors = [new UnexpectedError("Unexpected server error.")] };
+        }
         return new ServiceResult<string, IError> { Data = jwt };
     }
 
