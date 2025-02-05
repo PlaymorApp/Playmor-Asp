@@ -31,6 +31,8 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IFriendRepository, FriendRepository>();
+        services.AddScoped<IFriendService, FriendService>();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IHashingService, HashingService>();
