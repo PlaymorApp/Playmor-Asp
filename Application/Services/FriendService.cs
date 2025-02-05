@@ -42,7 +42,11 @@ public class FriendService : IFriendService
 
         if (newFriend is null)
         {
-            return new ServiceResult<FriendDTO?, IError> { Data = null, Errors = [new UnexpectedError("Unexpected server error.")] };
+            return new ServiceResult<FriendDTO?, IError>
+            {
+                Data = null,
+                Errors = [new UnexpectedError("Unexpected server error.")]
+            };
         }
 
         var newFriendMapped = _mapper.Map<FriendDTO>(newFriend);
