@@ -196,7 +196,7 @@ public class GameController : Controller
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> CreateGame([FromBody] GameDTO game)
+    public async Task<IActionResult> CreateGame([FromBody] GamePostDTO game)
     {
         var serviceResult = await _gameService.CreateGameAsync(game);
 
