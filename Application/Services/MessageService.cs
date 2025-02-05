@@ -22,7 +22,7 @@ public class MessageService : IMessageService
         _mapper = mapper;
         _userRepository = userRepository;
     }
-    public async Task<ServiceResult<Message?, IError>> CreateMessageAsync(MessagePostDTO messagePostDTO, int userId)
+    public async Task<ServiceResult<MessageDTO?, IError>> CreateMessageAsync(MessagePostDTO messagePostDTO, int userId)
     {
         var message = _mapper.Map<Message>(messagePostDTO);
 
@@ -30,7 +30,7 @@ public class MessageService : IMessageService
 
         if (!validation.IsValid)
         {
-            return new ServiceResult<Message?, IError>
+            return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
                 Errors = [new ValidationError("message", "Invalid message received")]
@@ -41,17 +41,19 @@ public class MessageService : IMessageService
 
         if (newMessage == null)
         {
-            return new ServiceResult<Message?, IError>
+            return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
                 Errors = [new UnexpectedError("Failed to create message")]
             };
         }
 
-        return new ServiceResult<Message?, IError> { Data = newMessage };
+        var mappedMessage = _mapper.Map<MessageDTO>(newMessage);
+
+        return new ServiceResult<MessageDTO?, IError> { Data = mappedMessage };
     }
 
-    public async Task<ServiceResult<Message?, IError>> UpdateMessageAsync(MessagePutDTO messagePutDTO, int userId)
+    public async Task<ServiceResult<MessageDTO?, IError>> UpdateMessageAsync(MessagePutDTO messagePutDTO, int userId)
     {
         var message = _mapper.Map<Message>(messagePutDTO);
 
@@ -59,7 +61,7 @@ public class MessageService : IMessageService
 
         if (!validation.IsValid)
         {
-            return new ServiceResult<Message?, IError>
+            return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
                 Errors = [new ValidationError("message", "Invalid message received")]
@@ -70,7 +72,7 @@ public class MessageService : IMessageService
 
         if (existingMessage == null)
         {
-            return new ServiceResult<Message?, IError>
+            return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
                 Errors = [new NotFoundError($"Message with id {message.Id} doesn't exist")]
@@ -100,17 +102,18 @@ public class MessageService : IMessageService
             }
         }
 
-
         if (updatedMessage == null)
         {
-            return new ServiceResult<Message?, IError>
+            return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
                 Errors = [new UnexpectedError("Failed to update message")]
             };
         }
 
-        return new ServiceResult<Message?, IError> { Data = updatedMessage };
+        var mappedMessage = _mapper.Map<MessageDTO>(updatedMessage);
+
+        return new ServiceResult<MessageDTO?, IError> { Data = mappedMessage };
     }
 
     public async Task<ServiceResult<bool, IError>> DeleteMessageAsync(int id, int userId)
@@ -208,7 +211,7 @@ public class MessageService : IMessageService
         return new ServiceResult<MessageDTO?, IError> { Data = messageDTO };
     }
 
-    public async Task<ServiceResult<ICollection<MessageDTO>, IError>> GetMessagesByRecipientIdAsync(int recipientId, int userId)
+    public async Task<ServiceResult<ICollection<MessageDTO>, IError>> GetMessagesByRecipientIdAsync(int recipientId)
     {
         if (recipientId < 1)
         {
@@ -216,16 +219,6 @@ public class MessageService : IMessageService
             {
                 Data = [],
                 Errors = [new ValidationError("recipientId", "recipientId cannot be less than 1")]
-            };
-        }
-
-        // If you are logged in you can access messages where recipientId is your own -> Checks received messages
-        if (recipientId != userId)
-        {
-            return new ServiceResult<ICollection<MessageDTO>, IError>
-            {
-                Data = [],
-                Errors = [new UnauthorizedError("Unauthorized request")]
             };
         }
 
@@ -268,7 +261,7 @@ public class MessageService : IMessageService
         return new ServiceResult<ICollection<MessageDTO>, IError> { Data = messagesDTO };
     }
 
-    public async Task<ServiceResult<ICollection<MessageDTO>, IError>> GetMessagesBySenderIdAsync(int senderId, int userId)
+    public async Task<ServiceResult<ICollection<MessageDTO>, IError>> GetMessagesBySenderIdAsync(int senderId)
     {
         if (senderId < 1)
         {
@@ -276,16 +269,6 @@ public class MessageService : IMessageService
             {
                 Data = [],
                 Errors = [new ValidationError("recipientId", "recipientId cannot be less than 1")]
-            };
-        }
-
-        // If you are logged in you can access messages where senderId is your own -> Checks sent messages
-        if (senderId != userId)
-        {
-            return new ServiceResult<ICollection<MessageDTO>, IError>
-            {
-                Data = [],
-                Errors = [new UnauthorizedError("Unauthorized request")]
             };
         }
 

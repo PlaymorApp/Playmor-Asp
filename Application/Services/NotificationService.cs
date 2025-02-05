@@ -136,7 +136,7 @@ public class NotificationService : INotificationService
         return new ServiceResult<NotificationDTO?, IError> { Data = mappedNotification };
     }
 
-    public async Task<ServiceResult<ICollection<NotificationDTO>, IError>> GetNotificationsByRecipientIdAsync(int recipientId, int userId)
+    public async Task<ServiceResult<ICollection<NotificationDTO>, IError>> GetNotificationsByRecipientIdAsync(int recipientId)
     {
         if (recipientId < 1)
         {
@@ -145,20 +145,6 @@ public class NotificationService : INotificationService
                 Data = [],
                 Errors = [new ValidationError(nameof(recipientId), $"Validation failed: {nameof(recipientId)} can't be lower than 1")]
             };
-        }
-
-        if (userId < 1)
-        {
-            return new ServiceResult<ICollection<NotificationDTO>, IError>
-            {
-                Data = [],
-                Errors = [new ValidationError(nameof(userId), $"Validation failed: {nameof(userId)} can't be lower than 1")]
-            };
-        }
-
-        if (recipientId != userId)
-        {
-            return new ServiceResult<ICollection<NotificationDTO>, IError> { Data = [], Errors = [new UnauthorizedError("Unauthorized operation requested.")] };
         }
 
         var notifications = await _notificationRepository.GetByRecipientIdAsync(recipientId);
@@ -173,7 +159,7 @@ public class NotificationService : INotificationService
         return new ServiceResult<ICollection<NotificationDTO>, IError> { Data = mappedNotifications };
     }
 
-    public async Task<ServiceResult<ICollection<NotificationDTO>, IError>> GetNotificationsBySenderIdAsync(int senderId, int userId)
+    public async Task<ServiceResult<ICollection<NotificationDTO>, IError>> GetNotificationsBySenderIdAsync(int senderId)
     {
         if (senderId < 1)
         {
@@ -182,20 +168,6 @@ public class NotificationService : INotificationService
                 Data = [],
                 Errors = [new ValidationError(nameof(senderId), $"Validation failed: {nameof(senderId)} can't be lower than 1")]
             };
-        }
-
-        if (userId < 1)
-        {
-            return new ServiceResult<ICollection<NotificationDTO>, IError>
-            {
-                Data = [],
-                Errors = [new ValidationError(nameof(userId), $"Validation failed: {nameof(userId)} can't be lower than 1")]
-            };
-        }
-
-        if (senderId != userId)
-        {
-            return new ServiceResult<ICollection<NotificationDTO>, IError> { Data = [], Errors = [new UnauthorizedError("Unauthorized operation requested.")] };
         }
 
         var notifications = await _notificationRepository.GetBySenderIdAsync(senderId);
@@ -210,9 +182,9 @@ public class NotificationService : INotificationService
         return new ServiceResult<ICollection<NotificationDTO>, IError> { Data = mappedNotifications };
     }
 
-    public async Task<ServiceResult<int, IError>> GetUnreadNotificationCountByRecipientIdAsync(int recipientId, int userId)
+    public async Task<ServiceResult<int, IError>> GetUnreadNotificationCountByRecipientIdAsync(int recipientId)
     {
-        var sR = await GetNotificationsByRecipientIdAsync(recipientId, userId);
+        var sR = await GetNotificationsByRecipientIdAsync(recipientId);
 
         if (!sR.IsValid)
         {
