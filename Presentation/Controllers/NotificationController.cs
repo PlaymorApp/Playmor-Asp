@@ -4,6 +4,7 @@ using Playmor_Asp.Application.Common.Errors;
 using Playmor_Asp.Application.DTOs.Notification;
 using Playmor_Asp.Application.Services;
 using Playmor_Asp.Helpers;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Playmor_Asp.Presentation.Controllers;
 
@@ -19,6 +20,10 @@ public class NotificationController : Controller
     }
 
     [HttpGet("notifications/{id}")]
+    [SwaggerOperation(
+        Summary = "Get notification by id",
+        Description = "Retrieves a notification based on its id. Requires the auth cookie set."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -55,6 +60,10 @@ public class NotificationController : Controller
     }
 
     [HttpGet("notifications/unread")]
+    [SwaggerOperation(
+        Summary = "Get unread notification count",
+        Description = "Retrieves a number of unread notifications of authorized user. Requires the auth cookie set."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -87,6 +96,10 @@ public class NotificationController : Controller
     }
 
     [HttpGet("notifications")]
+    [SwaggerOperation(
+        Summary = "Get notifications of user as a recipient",
+        Description = "Retrieves notifications of authorized user as recipient. Requires the auth cookie set."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<NotificationDTO>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -118,6 +131,10 @@ public class NotificationController : Controller
     }
 
     [HttpGet("notifications/sent")]
+    [SwaggerOperation(
+        Summary = "Get notifications of user as a sender",
+        Description = "Retrieves notifications of authorized user as a sender. Requires the auth cookie set."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<NotificationDTO>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -149,6 +166,10 @@ public class NotificationController : Controller
     }
 
     [HttpPost("notifications")]
+    [SwaggerOperation(
+        Summary = "Post notification",
+        Description = "Creates a new notification resource. Requires the auth cookie set."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -181,6 +202,10 @@ public class NotificationController : Controller
     }
 
     [HttpDelete("notifications/{id}")]
+    [SwaggerOperation(
+        Summary = "Delete notification by id",
+        Description = "Removes existing notification with given id. Requires the auth cookie set."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
