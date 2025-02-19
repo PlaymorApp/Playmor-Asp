@@ -48,8 +48,11 @@ public class MappingProfile : Profile
         CreateMap<MessagePostDTO, Message>();
         CreateMap<Message, MessagePostDTO>();
 
-        CreateMap<MessagePutDTO, Message>();
-        CreateMap<Message, MessagePutDTO>();
+        CreateMap<MessagePatchDTO, Message>();
+        CreateMap<Message, MessagePatchDTO>();
+
+        CreateMap<MessagePatchDTO, MessageDTO>();
+        CreateMap<MessageDTO, MessagePatchDTO>();
 
         CreateMap<Comment, CommentDTO>();
         CreateMap<CommentDTO, Comment>();

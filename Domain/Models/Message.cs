@@ -8,6 +8,7 @@ public class Message
     public int Id { get; set; }
     public required int RecipientId { get; set; }
     public required int SenderId { get; set; }
+    public required string Title { get; set; }
     public required string Content { get; set; }
     public required bool IsRead { get; set; }
 

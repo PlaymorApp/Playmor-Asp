@@ -53,69 +53,78 @@ public class MessageService : IMessageService
         return new ServiceResult<MessageDTO?, IError> { Data = mappedMessage };
     }
 
-    public async Task<ServiceResult<MessageDTO?, IError>> UpdateMessageAsync(MessagePutDTO messagePutDTO, int userId)
+    public async Task<ServiceResult<MessageDTO?, IError>> UpdateMessageAsync(MessagePatchDTO messagePatchDTO, int userId)
     {
-        var message = _mapper.Map<Message>(messagePutDTO);
-
-        var validation = _messageValidator.Validate(message);
-
-        if (!validation.IsValid)
-        {
-            return new ServiceResult<MessageDTO?, IError>
-            {
-                Data = null,
-                Errors = [new ValidationError("message", "Invalid message received")]
-            };
-        }
-
-        var existingMessage = await _messageRepository.GetByIDAsync(message.Id);
+        var existingMessage = await _messageRepository.GetByIDAsync(messagePatchDTO.Id);
 
         if (existingMessage == null)
         {
             return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
-                Errors = [new NotFoundError($"Message with id {message.Id} doesn't exist")]
+                Errors = [new NotFoundError($"Message with id {messagePatchDTO.Id} doesn't exist")]
             };
         }
 
-        Message? updatedMessage = null;
-        // Sender can change the message contents
-        if (existingMessage.SenderId == userId)
-        {
-            // Request claiming to be sender hadn't changed isRead
-            // Then update contents
-            if (existingMessage.IsRead == messagePutDTO.IsRead)
-            {
-                updatedMessage = await _messageRepository.UpdateAsync(message, message.Id);
-            }
-        }
-
-        // Recipients can change the isRead flag
-        if (existingMessage.RecipientId == userId)
-        {
-            // Request claiming to be recipient hadn't changed contents
-            // Then update isRead
-            if (existingMessage.Content == messagePutDTO.Content)
-            {
-                updatedMessage = await _messageRepository.UpdateAsync(message, message.Id);
-            }
-        }
-
-        if (updatedMessage == null)
+        if (existingMessage.RecipientId != userId)
         {
             return new ServiceResult<MessageDTO?, IError>
             {
                 Data = null,
-                Errors = [new UnexpectedError("Failed to update message")]
+                Errors = [new UnauthorizedError("Unauthorized request received.")]
             };
         }
 
-        var mappedMessage = _mapper.Map<MessageDTO>(updatedMessage);
+        var mappedMessage = _mapper.Map<Message>(messagePatchDTO);
 
-        return new ServiceResult<MessageDTO?, IError> { Data = mappedMessage };
+        var updatedMessage = await _messageRepository.UpdateAsync(mappedMessage, mappedMessage.Id);
+
+        var returnMessage = (await GetMessageByIDAsync(messagePatchDTO.Id, userId)).Data;
+
+        return new ServiceResult<MessageDTO?, IError> { Data = returnMessage };
     }
+    public async Task<ServiceResult<List<MessageDTO?>, IError>> UpdateMessagesAsync(List<MessagePatchDTO> messagesPatchDTO, int userId)
+    {
+        if (messagesPatchDTO == null || messagesPatchDTO.Count < 1)
+        {
+            return new ServiceResult<List<MessageDTO?>, IError>
+            {
+                Data = [],
+                Errors = [new ValidationError(nameof(messagesPatchDTO), $"Validation failed: Messages can't be fewer than 1")]
+            };
+        }
 
+        List<MessageDTO?> updatedMessages = [];
+
+        foreach (var messagePatchDTO in messagesPatchDTO)
+        {
+            var serviceResult = await UpdateMessageAsync(messagePatchDTO, userId);
+
+            if (serviceResult == null)
+            {
+                return new ServiceResult<List<MessageDTO?>, IError>
+                {
+                    Data = [],
+                    Errors = [new UnexpectedError($"Failed to update message with id: {messagePatchDTO.Id}")]
+                };
+            }
+
+            if (!serviceResult.IsValid)
+            {
+                return new ServiceResult<List<MessageDTO?>, IError>
+                {
+                    Data = [],
+                    Errors = serviceResult.Errors
+                };
+            }
+
+            var messageDTO = serviceResult.Data;
+
+            updatedMessages.Add(messageDTO);
+        }
+
+        return new ServiceResult<List<MessageDTO?>, IError> { Data = updatedMessages };
+    }
     public async Task<ServiceResult<bool, IError>> DeleteMessageAsync(int id, int userId)
     {
         var serviceResult = await GetMessageByIDAsync(id, userId);
@@ -310,4 +319,5 @@ public class MessageService : IMessageService
 
         return new ServiceResult<ICollection<MessageDTO>, IError> { Data = messagesDTO };
     }
+
 }

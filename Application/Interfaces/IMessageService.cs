@@ -10,6 +10,7 @@ public interface IMessageService
     public Task<ServiceResult<ICollection<MessageDTO>, IError>> GetMessagesByRecipientIdAsync(int recipientId);
     public Task<ServiceResult<ICollection<MessageDTO>, IError>> GetMessagesBySenderIdAsync(int senderId);
     public Task<ServiceResult<MessageDTO?, IError>> CreateMessageAsync(MessagePostDTO messagePostDTO, int userId);
-    public Task<ServiceResult<MessageDTO?, IError>> UpdateMessageAsync(MessagePutDTO messagePutDTO, int userId);
+    public Task<ServiceResult<MessageDTO?, IError>> UpdateMessageAsync(MessagePatchDTO messagePatchDTO, int userId);
+    public Task<ServiceResult<List<MessageDTO?>, IError>> UpdateMessagesAsync(List<MessagePatchDTO> messagesPatchDTO, int userId);
     public Task<ServiceResult<bool, IError>> DeleteMessageAsync(int id, int userId);
 }

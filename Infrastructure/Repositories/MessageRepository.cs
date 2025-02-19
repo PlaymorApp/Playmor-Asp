@@ -36,13 +36,18 @@ public class MessageRepository : IMessageRepository
     public async Task<Message?> UpdateAsync(Message newMessage, int oldMessageId)
     {
         var oldMessage = await GetByIDAsync(oldMessageId);
+
         if (oldMessage == null)
         {
             return null;
         }
-        string[] skipProps = ["Id", "RecipientId", "SenderId", "CreatedAt"];
+
+        string[] skipProps = ["Id", "RecipientId", "SenderId", "CreatedAt", "Title", "Content"];
+
         PropertyCopier.CopyProperties<Message>(newMessage, oldMessage, skipProps);
+
         var status = await SaveAsync();
+
         return status ? oldMessage : null;
     }
 
