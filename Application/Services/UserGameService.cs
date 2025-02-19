@@ -213,6 +213,7 @@ public class UserGameService : IUserGameService
                     GamesInProgress = 0,
                     GamesCompleted = 0,
                     GamesDropped = 0,
+                    GamesPlanned = 0,
                     AverageRating = 0
                 }
             };
@@ -221,6 +222,7 @@ public class UserGameService : IUserGameService
         var gamesInProgress = 0;
         var gamesCompleted = 0;
         var gamesDropped = 0;
+        var gamesPlanned = 0;
         var totalScore = 0;
 
         foreach (var game in serviceResult.Data)
@@ -231,6 +233,8 @@ public class UserGameService : IUserGameService
                 gamesCompleted++;
             if (game.Status == Domain.Enums.UserGameStatus.Dropped)
                 gamesDropped++;
+            if (game.Status == Domain.Enums.UserGameStatus.PlanningToPlay)
+                gamesPlanned++;
 
             totalScore += game.Score;
         }
@@ -243,6 +247,7 @@ public class UserGameService : IUserGameService
             GamesInProgress = gamesInProgress,
             GamesCompleted = gamesCompleted,
             GamesDropped = gamesDropped,
+            GamesPlanned = gamesPlanned,
             AverageRating = averageRating
         };
 

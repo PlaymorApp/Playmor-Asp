@@ -6,5 +6,6 @@ public class UserGameStatistics
     public int GamesCompleted { get; set; }
     public int GamesInProgress { get; set; }
     public int GamesDropped { get; set; }
+    public int GamesPlanned { get; set; }
     public double AverageRating { get; set; }
 }
